@@ -7,18 +7,18 @@ import { useMap } from "react-leaflet";
 
 function SetViewOnClick({ focusPos }) {
     const map = useMap();
-  
-    useEffect(() => {
-      if (focusPos) {
-        map.setView(focusPos.coord, map.getZoom());
-        console.log(focusPos)
-      }
-    }, [focusPos, map]);
-  
-    return null;
-  }
 
-export default function Map({data, focusPos, setFocusPos}){
+    useEffect(() => {
+        if (focusPos) {
+            map.setView(focusPos.coord, map.getZoom());
+            console.log(focusPos)
+        }
+    }, [focusPos, map]);
+
+    return null;
+}
+
+export default function Map({ data, focusPos, setFocusPos }) {
     // const all_pos = [
     //     [51.505, -0.09],
     //     [51.5051, -0.10],
@@ -35,38 +35,39 @@ export default function Map({data, focusPos, setFocusPos}){
     //     const map = useMap();
     //     console.log(coord)
     //     map.setView(coord, map.getZoom());
-      
+
     //     return null;
     //   }
     // const position = [51.505, -0.09]
     // useEffect(()=>{
     //     // setData(JSON.parse(localStorage.getItem('put_in')))
     // },[])
-    return(
-        <MapContainer center={data[1].coord} zoom={13} scrollWheelZoom={false} style={{ height: "100vh", width: "100%" , boxShadow: 'inset 0 0 60px -12px gray'}}>
+    return (
+        <MapContainer center={data[1].coord} zoom={13} scrollWheelZoom={false} style={{ height: "100vh", width: "100%", boxShadow: 'inset 0 0 60px -12px gray' }}>
             <TileLayer
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
             {data.map((item, index) => (
                 // <button onClick={handlePosCenter}>
                 <>
-                    <Marker position={item.coord} key={index} 
-                    eventHandlers={{
-                        click: () => {
-                        setFocusPos(item);
-                        },}}
+                    <Marker position={item.coord} key={index}
+                        eventHandlers={{
+                            click: () => {
+                                setFocusPos(item);
+                            },
+                        }}
                     >
                         <Popup>
                             popup. <br />
                         </Popup>
                     </Marker>
                     {/* <SetViewOnClick focusPos={focusPos}/> */}
-                    </>
+                </>
                 // </button>
-                ))
-                }
-                <SetViewOnClick focusPos={focusPos}/>
+            ))
+            }
+            <SetViewOnClick focusPos={focusPos} />
             {/* <Marker position={position}>
                 <Popup>
                     A pretty CSS3 popup. <br /> Easily customizable.

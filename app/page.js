@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import "leaflet/dist/leaflet.css";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.webpack.css";
@@ -6,9 +6,11 @@ import "leaflet-defaulticon-compatibility";
 import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
 import SearchForm from "@/components/search_elements/search_form";
 import { useEffect } from "react";
+import { useCoords } from "./_context/CoordsContext";
 
 export default function Home() {
   const position = [51.23, -0.09];
+  const { coords, setCoords } = useCoords();
 
   return (
     <div className="relative bg-transparent text-black">
@@ -25,15 +27,13 @@ export default function Home() {
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
-
           <Marker position={position}>
             <Popup>
               A pretty CSS3 popup. <br /> Easily customizable.
             </Popup>
           </Marker>
-
-          {/* Add the component to control map movement */}
-          <MapMover />
+          {/* Call the function to control map movement */}
+          <MapMover coords={coords} />
         </MapContainer>
 
         {/* Overlay content */}
@@ -58,22 +58,21 @@ export default function Home() {
   );
 }
 
-function MapMover() {
+function MapMover({ coords }) {
   const map = useMap();
 
   useEffect(() => {
-    let lat = 51.23;
-    let lng = -0.09;
-
+    let lat = coords[0];
+    let lng = coords[1];
     const interval = setInterval(() => {
-      lng -= 0.001; 
+      lng -= 0.001;
       map.setView([lat, lng], map.getZoom());
-    }, 100); 
+    }, 100);
 
     return () => {
       clearInterval(interval);
     };
-  }, [map]);
+  }, [map, coords]);
 
   return null;
 }
