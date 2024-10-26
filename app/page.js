@@ -60,12 +60,13 @@ export default function Home() {
 
 function MapMover({ coords }) {
   const map = useMap();
+  map.setZoom(12);
 
   useEffect(() => {
     let lat = coords[0];
     let lng = coords[1];
     const interval = setInterval(() => {
-      lng -= 0.001;
+      lng += 0.001;
       map.setView([lat, lng], map.getZoom());
     }, 100);
 

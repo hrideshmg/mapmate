@@ -28,8 +28,8 @@ export default function SearchForm({ locstate }) {
         }
         else {
             const jsonData = await response.json();
-            let lat = jsonData[0]["lat"]
-            let lng = jsonData[0]["lon"]
+            let lat = parseFloat(jsonData[0]["lat"])
+            let lng = parseFloat(jsonData[0]["lon"])
             setCoords([lat, lng]);
         }
     }
