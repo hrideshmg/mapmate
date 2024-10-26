@@ -40,9 +40,9 @@ export default function Home() {
         <div className="absolute inset-0 z-[500] flex justify-center items-center pointer-events-none">
           <div className="flex-1 flex flex-col justify-center items-center">
             <div className="flex flex-col justify-center items-start">
-              <p className="text-[4.5vw]">Scrapeyard</p>
+              <p className="text-[4.5vw]">Urbanalyze</p>
               <p className="text-start px-[0.5vw] text-[1.5vw] bg-black text-white">
-                Get your prices right
+                Get your places right
               </p>
             </div>
           </div>

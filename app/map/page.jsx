@@ -60,7 +60,7 @@ export default function MapsTest(){
         <div className="flex-1 flex">
             <div className="bg-light flex-1 h-screen flex flex-col p-[1vw]">
                 <div className="text-black text-[3vw] tracking-tighter font-semibold">
-                    SCRAPEYARD
+                    URBANALYZE
                 </div>
                 <div className="w-full">
                     <SearchBar/>
