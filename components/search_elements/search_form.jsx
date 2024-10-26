@@ -9,16 +9,8 @@ export default function SearchForm({ locstate }) {
     const router = useRouter();
     const { coords, setCoords } = useCoords();
     const [state, setState] = useState({
-        car_name: "",
-        manufacture_year: "",
-        mileage: "",
-        fuel_type: "",
-        owner: "",
-        price: "",
-        emi: "",
-        url: '',
-        image_url: '',
-        location: ''
+        location: '',
+        desc: ''
     });
 
     const handleBlur = async (e) => {
@@ -82,21 +74,24 @@ export default function SearchForm({ locstate }) {
                 <input type="text" placeholder="Model" className="w-full rounded-[2vw] min-h-[4vw] mb-[1vw]"></input>
                 <input type="text" placeholder="Company" className="w-full rounded-[2vw] min-h-[4vw]"></input> */}
                 <div className="flex">
-                    <p className="text-[2vw] mr-[1vw]">Model:</p>
-                    <input id="model" 
-                        //placeholder="Model"
-                        value={state.password}
+                    <p className="text-[2vw] mr-[1vw]">Location:</p>
+                    <input id="location" 
+                        placeholder="vijay nagar"
+                        value={state.location}
                         onChange={handleChange}
                         required type="text" className="bg-transparent w-full px-[0.5vw] text-[2vw]"></input>
                 </div>
                 <div className="h-[2px] bg-black w-full mb-[0.5vw]"></div>
-                <div className="flex">
-                    <p className="text-[2vw] mr-[1vw]">Maker:</p>
-                    <input id="maker" 
-                        //placeholder="Maker"
-                        value={state.password}
+                <div className="flex-row">
+                    <p className="text-[2vw] mr-[1vw]">What are you looking for :</p>
+                    <textarea 
+                        id="desc" 
+                        placeholder="home"
+                        value={state.desc}
                         onChange={handleChange}
-                        required type="text" className="bg-transparent w-full px-[0.5vw] text-[2vw]"></input>
+                        required 
+                        className="bg-transparent w-full px-[0.5vw] text-[2vw] h-[15vh] word-wrap break-all max-w-[100%]"
+                    />
                 </div>
                 <div className="h-[2px] bg-black w-full mb-[0.5vw]"></div>
             </div>
