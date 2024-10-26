@@ -13,7 +13,8 @@ import { triggerGeoFusion } from "@/app/_scripts/orchestrator";
 
 export default function SearchForm() {
   const router = useRouter();
-  const { _, setCoords } = useCoords();
+  const { _, setCoords, settlementData, setSettlementData } = useCoords();
+
   const [state, setState] = useState({
     location: '',
     desc: ''
@@ -22,7 +23,9 @@ export default function SearchForm() {
   const handleBlur = async (e) => {
     const coords = await getCoordinates(e.target.value)
     setCoords(coords);
-    await triggerGeoFusion(coords, 10000);
+    let result = await triggerGeoFusion(coords, 10000);
+    console.log(result)
+    setSettlementData(result);
   }
 
   const handleChange = (e) => {
