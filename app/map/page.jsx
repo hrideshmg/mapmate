@@ -43,19 +43,6 @@ export default function MapsTest(){
     const [currBrief, setCurrBrief] = useState({});
     const [currIndex, setCurrIndex] = useState(null);
     const [focusPos, setFocusPos] = useState(null); 
-    
-    useEffect(()=>{
-        let temp = JSON.parse(localStorage.getItem(ACCESS_TOKEN_NAME));
-        temp = Filter(temp);
-        setInter(temp);
-        localStorage.setItem('in', JSON.stringify(temp));
-    },[])
-
-    useEffect(() => {
-        console.log(data, inter, 'here is data and inter');
-        if (inter && inter.length > 0) {
-        }
-    }, [inter]);
 
     useEffect(()=>{
         if (currIndex != null){
@@ -96,15 +83,4 @@ export default function MapsTest(){
             </div>
         </div>
     );
-}
-
-function Filter(temp){
-    let filtered = [];
-    let cond = JSON.parse(localStorage.getItem(ACCESS_FILTER));
-    for (let i = 0; i < temp.length; i++) {
-        if (temp[i].brand === cond.maker) {
-            filtered.push(temp[i]);
-        }
-    }
-    return filtered;
 }

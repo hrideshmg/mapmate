@@ -38,8 +38,8 @@ export default function SearchForm(){
                         'successMessage' : 'Login successful. Redirecting to home page..'
                     }))
                     //console.log(response.data)
-                    localStorage.setItem(ACCESS_TOKEN_NAME,JSON.stringify(response.data.cars));
-                    localStorage.setItem(ACCESS_FILTER, JSON.stringify(state))
+                    // localStorage.setItem(ACCESS_TOKEN_NAME,JSON.stringify(response.data.cars));
+                    // localStorage.setItem(ACCESS_FILTER, JSON.stringify(state))
                     redirectToMap();
                 }
                 // else if(response.code === 204){

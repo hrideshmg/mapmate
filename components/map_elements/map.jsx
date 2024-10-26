@@ -58,7 +58,7 @@ export default function Map({data, focusPos, setFocusPos}){
                         },}}
                     >
                         <Popup>
-                            A pretty CSS3 popup. <br /> Easily customizable.
+                            popup. <br />
                         </Popup>
                     </Marker>
                     {/* <SetViewOnClick focusPos={focusPos}/> */}
