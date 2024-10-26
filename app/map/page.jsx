@@ -15,6 +15,7 @@ export default function MapsTest(){
         {
             name:"chevy",
             price:'Rs.2.3L',
+            liked:false,
             coord: [51.505, -0.09],
             transmission: "auto",
             cost: 245,
@@ -27,6 +28,7 @@ export default function MapsTest(){
         },
         {
             name:'mazda',
+            liked:false,
             price: 'Rs.4.3L',
             coord: [10.042787179069377, 76.3284576954426],
             transmission: "manuel",
@@ -76,7 +78,7 @@ export default function MapsTest(){
             <div className="bg-light flex-[3] flex justify-end">
                 <div className="rounded-[3vw] bg-red-300 flex-1 overflow-hidden">
                     {focusPos && (  // Ensure focusPos is available before rendering the map
-                        <Map data={data} focusPos={focusPos} setFocusPos={setFocusPos} />
+                        <Map data={data} focusPos={focusPos} setFocusPos={setFocusPos} setData={setData} />
                     )}
                 </div>
                 <ProductBrief open={open} setOpen={setOpen} currBrief={currBrief}/>
