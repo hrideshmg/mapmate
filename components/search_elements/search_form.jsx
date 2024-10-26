@@ -3,27 +3,22 @@ import { API_BASE_URL, ACCESS_TOKEN_NAME, ACCESS_FILTER } from "@/app/_constants
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { useCoords } from "@/app/_context/CoordsContext";
+import { getCoordinates } from "@/app/_scripts/integrations";
+import { triggerGeoFusion } from "@/app/_scripts/orchestrator";
 // axios.defaults.headers.common['Access-Control-Allow-Origin']= '*'
 
-export default function SearchForm({ locstate }) {
+export default function SearchForm() {
     const router = useRouter();
-    const { coords, setCoords } = useCoords();
+    const { _, setCoords } = useCoords();
     const [state, setState] = useState({
         location: '',
         desc: ''
     });
 
     const handleBlur = async (e) => {
-        const response = await fetch(`https://nominatim.openstreetmap.org/search?addressdetails=1&format=jsonv2&limit=1&q=${e.target.value}`)
-        if (!response.ok) {
-            console.log("Request Failed!");
-        }
-        else {
-            const jsonData = await response.json();
-            let lat = parseFloat(jsonData[0]["lat"])
-            let lng = parseFloat(jsonData[0]["lon"])
-            setCoords([lat, lng]);
-        }
+        const coords = await getCoordinates(e.target.value)
+        setCoords(coords);
+        await triggerGeoFusion(coords, 10000);
     }
 
     const handleChange = (e) => {
@@ -158,4 +153,6 @@ export default function SearchForm({ locstate }) {
         </form>
     )
 }
+
+
 

@@ -39,9 +39,6 @@ export default function ProductBrief({ open, setOpen, currBrief }) {
                     <div className="text-[2vw] font-semibold">{currBrief.name}</div>
                 </div>
             </div>
-            <div className={`${expand.w == 'min-w-[30vw]' ? 'hidden' : ''} flex-[2] flex flex-col`}>
-                <Link href="http://192.168.231.188:8501/?brand=hyundai&model=i20">Link to DV</Link>
-            </div>
             <button className={`${expand.h === "min-h-[98vh]" ? 'hidden' : ''}`} onClick={handleClick}>
                 <ArrowDownLeft />
             </button>
