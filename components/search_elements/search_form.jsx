@@ -9,6 +9,7 @@ import axios from "axios";
 import { useCoords } from "@/app/_context/CoordsContext";
 import { geminiSummarise, getCoordinates } from "@/app/_scripts/integrations";
 import { triggerGeoFusion } from "@/app/_scripts/orchestrator";
+import Link from "next/link";
 // axios.defaults.headers.common['Access-Control-Allow-Origin']= '*'
 
 export default function SearchForm() {
@@ -103,7 +104,6 @@ export default function SearchForm() {
             placeholder="home"
             value={state.desc}
             onChange={handleChange}
-            required
             className="bg-transparent w-full px-[0.5vw] rounded-xl focus:border-b-0 text-[2vw] h-[15vh] word-wrap break-all max-w-[100%] border border-transparent focus:border-gray-300 focus:outline-none focus:border-2"
           />
         </div>

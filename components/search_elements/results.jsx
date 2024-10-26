@@ -1,16 +1,18 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import FilterTags from "./filter_tags";
+import { useCoords } from "@/app/_context/CoordsContext";
 
 export default function SampleResults({
   open,
   setOpen,
   setCurrIndex,
-  data,
   currIndex,
   setFocusPos,
 }) {
-  const tags = ["Alpha", "Beta", "Gamma", "Delta", "Sale"];
+
+    const {settlementData, setSettlementData} = useCoords();
 
   const handleShowBrief = (index, fruit) => {
     if (open && currIndex !== undefined && index === currIndex) {
@@ -18,25 +20,16 @@ export default function SampleResults({
     } else {
       setOpen(true);
       setCurrIndex(index);
-      setFocusPos(fruit.data.location.coordinates);
+      setFocusPos(fruit.address.location);
     }
     console.log("clicked brief open", open, index, fruit);
   };
 
   return (
         <div>
-            <div className="flex flex-wrap gap-2 mb-4 mt-4">
-                {tags.map((tag, index) => (
-                <span
-                    key={index}
-                    className="px-3 py-1 rounded-full text-sm transition duration-300 ease-in-out bg-[#D2B48C] text-white hover:bg-[#5B3A29]"
-                >
-                    {tag}
-                </span>
-                ))}
-            </div>
+            <FilterTags/>
             <ul className="text-black mt-[2vw]">
-                {data.map((fruit, index) => (
+                {settlementData.map((fruit, index) => (
                     <li>
                     <button key={index} className="min-h-[8vw] flex items-center w-full" onClick={()=>{handleShowBrief(index, fruit)}}>
                         <div className="max-h-[7.5vw] overflow-hidden rounded-[0.5vw]">
@@ -44,14 +37,14 @@ export default function SampleResults({
                         </div>
                         <div className="flex flex-col min-h-[7.5vw] flex-1 mx-[1vw]">
                             <div className="text-start flex-1 ">
-                                <p className="text-[1.5vw] leading-[1.5vw]">
-                                    {fruit.data.address.city}, {fruit.data.address.county}, {fruit.data.address.state_district}, {fruit.data.address.country}, {fruit.data.address.postcode}
+                                <p className="text-[1.1vw] leading-[1.2vw]">
+                                    {fruit.address.display_name}
+                                    {/* {fruit.address.city}, {fruit.address.state_district}, {fruit.address.country}, {fruit.address.postcode} */}
                                 </p>
-                                {/* <p className="text-[2vw]">{fruit.score}</p> */}
                             </div>
                             <div className="flex-1 flex items-center">
                                 <div className="flex-1"></div>
-                                <p className="text-[2vw] font-semibold">{fruit.score}</p>
+                                <p className="text-[2vw] font-semibold">{fruit.index}</p>
                             </div>
                         </div>
                     </button>
