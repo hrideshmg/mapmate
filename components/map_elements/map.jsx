@@ -36,7 +36,7 @@ export default function Map({ data, focusPos, setFocusPos, setData }) {
 
   return (
     <MapContainer
-      center={data[0].data.location.coordinates}
+      center={data[0].address.location}
       zoom={13}
       scrollWheelZoom={false}
       style={{
@@ -53,12 +53,12 @@ export default function Map({ data, focusPos, setFocusPos, setData }) {
         // <button onClick={handlePosCenter}>
 
         <Marker
-          position={item.data.location.coordinates}
+          position={item.address.location}
           key={index}
           eventHandlers={{
             click: () => {
-                if (item.data.location.coordinates!=focusPos){
-                    setFocusPos(item.data.location.coordinates);
+                if (item.address.location!=focusPos){
+                    setFocusPos(item.address.location);
                 }else{
                     
                     if (refreshFlag==true){
