@@ -13,6 +13,7 @@ export default function MapsTest(){
     const [open, setOpen] = useState(false);
     const [data, setData] = useState([
         {
+            score: 8.3,
             url:"https://www.cars24.com/buy-used-hyundai-eon-2016-cars-kochi-13036881709/",
             status: "success",
             data: {
@@ -64,6 +65,60 @@ export default function MapsTest(){
                 }
               }
             }
+          },
+          {
+            score: 8.3,
+            url:"https://www.cars24.com/buy-used-hyundai-eon-2016-cars-kochi-13036881709/",
+            status: "success",
+            data: {
+              city: "Kochi",
+              state: "Kerala",
+              country: "India",
+              address: {
+                city: "Kochi",
+                county: "Kochi",
+                state_district: "Ernakulam",
+                state: "Kerala",
+                "ISO3166-2-lvl4": "IN-KL",
+                postcode: "682001",
+                country: "India",
+                country_code: "in"
+                },
+              location: {
+                type: "Point",
+                coordinates: [
+                    51.26022,
+                    10.01
+                ]
+              },
+              current: {
+                pollution: {
+                  ts: "2024-10-26T05:00:00.000Z",
+                  aqius: 93,
+                  mainus: "p2",
+                  aqicn: 47,
+                  maincn: "p1"
+                },
+                weather: {
+                  ts: "2024-10-26T06:00:00.000Z",
+                  tp: 29,
+                  pr: 1011,
+                  hu: 69,
+                  ws: 2.51,
+                  wd: 221,
+                  ic: "03d",
+                },
+                geography: {
+                    river_discharge: 234.345,
+                    water_lvl: 214.22,
+                    elevation: 4326.43,
+                    land_cover: 345.22,
+                    infrastructure: "agriculture",
+                    historical_floods: 3,
+                    floods_occured: 2
+                }
+              }
+            }
           }
     ]);
     const [inter, setInter] = useState();
@@ -79,7 +134,7 @@ export default function MapsTest(){
 
     useEffect(()=>{
         if (data.length > 0) {
-            setFocusPos(data[0]);
+            setFocusPos(data[0].data.location.coordinates);
         }
     }, [data]);
 

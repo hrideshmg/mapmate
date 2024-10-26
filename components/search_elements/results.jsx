@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function SampleResults({open, setOpen, setCurrIndex, data, currIndex,  setFocusPos}){
     const handleShowBrief=(index, fruit)=>{
@@ -12,8 +12,12 @@ export default function SampleResults({open, setOpen, setCurrIndex, data, currIn
             setCurrIndex(index)
             setFocusPos(fruit.data.location.coordinates)
         }
-        console.log("clicked brief open", open, index, fruit)
+        console.log("clicked brief open", open, index, fruit, fruit.data.location.coordinates)
     }
+
+    useEffect(()=>{
+        // console.log("her focus ", focusPos)
+    })
     return(
         <div>
             <ul className="text-black mt-[2vw]">
@@ -28,10 +32,11 @@ export default function SampleResults({open, setOpen, setCurrIndex, data, currIn
                                 <p className="text-[1.5vw] leading-[1.5vw]">
                                     {fruit.data.address.city}, {fruit.data.address.county}, {fruit.data.address.state_district}, {fruit.data.address.country}, {fruit.data.address.postcode}
                                 </p>
-                                <p>54</p>
+                                {/* <p className="text-[2vw]">{fruit.score}</p> */}
                             </div>
                             <div className="flex-1 flex items-center">
-                                <p className="text-[2vw] font-semibold">{fruit.price}</p>
+                                <div className="flex-1"></div>
+                                <p className="text-[2vw] font-semibold">{fruit.score}</p>
                             </div>
                         </div>
                     </button>

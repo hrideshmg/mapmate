@@ -8,15 +8,16 @@ import { useMap } from "react-leaflet";
 
 function SetViewOnClick({ focusPos }) {
     const map = useMap();
+    
+    console.log(focusPos,'here is focuspos inside map')
+    useEffect(() => {
+        if (focusPos) {
+            map.setView(focusPos, map.getZoom());
+            console.log(focusPos)
+        }
+    }, [focusPos, map]);
 
-    // useEffect(() => {
-    //     if (focusPos) {
-    //         map.setView(focusPos.coord, map.getZoom());
-    //         console.log(focusPos)
-    //     }
-    // }, [focusPos, map]);
-
-    // return null;
+    return null;
 }
 
 export default function Map({ data, focusPos, setFocusPos }) {
@@ -43,8 +44,14 @@ export default function Map({ data, focusPos, setFocusPos }) {
     // useEffect(()=>{
     //     // setData(JSON.parse(localStorage.getItem('put_in')))
     // },[])
+
+    // const changeFocus=(item)=>{
+    //     setFocusPos(item.data.location.coordinates)
+    //     setCoords(item.data.location.coordinates)
+    // }
+
     return (
-        <MapContainer center={data[0].data.location.coordinates} zoom={13} scrollWheelZoom={false} style={{ height: "100vh", width: "100%", boxShadow: 'inset 0 0 60px -12px gray' }}>
+        <MapContainer center={focusPos} zoom={13} scrollWheelZoom={false} style={{ height: "100vh", width: "100%", boxShadow: 'inset 0 0 60px -12px gray' }}>
             <TileLayer
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -55,7 +62,7 @@ export default function Map({ data, focusPos, setFocusPos }) {
                     <Marker position={item.data.location.coordinates} key={index} 
                     eventHandlers={{
                         click: () => {
-                            setFocusPos(item);
+                            setFocusPos(item.data.location.coordinates);
                         },
                     }}
                 >
@@ -92,6 +99,7 @@ export default function Map({ data, focusPos, setFocusPos }) {
                     </Popup>
                 </Marker>
             ))}
+            {/* <onCh */}
             <SetViewOnClick focusPos={focusPos} />
         </MapContainer>
     );
