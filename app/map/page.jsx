@@ -8,8 +8,11 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import axios from "axios";
 import { ACCESS_FILTER, ACCESS_TOKEN_NAME } from "../_constants/constants";
+import { useCoords } from "../_context/CoordsContext";
+
 
 export default function MapsTest(){
+    const {settlementData, setSettlementData} = useCoords();
     const [open, setOpen] = useState(false);
     const [data, setData] = useState([
       {
@@ -59,6 +62,11 @@ export default function MapsTest(){
         index: 75
       }
     ]);
+
+    useEffect(()=>{
+      console.log(settlementData)
+        setData(settlementData);
+    },[])
     const [inter, setInter] = useState();
     const [currBrief, setCurrBrief] = useState({});
     const [currIndex, setCurrIndex] = useState(null);
@@ -66,15 +74,15 @@ export default function MapsTest(){
 
   useEffect(() => {
     if (currIndex != null) {
-      setCurrBrief(data[currIndex]);
+      setCurrBrief(settlementData[currIndex]);
     }
   }, [currIndex]);
 
     useEffect(()=>{
-        if (data.length > 0) {
-            setFocusPos(data[0].address.location);
+        if (settlementData.length > 0) {
+            setFocusPos(settlementData[0].address.location);
         }
-    }, [data]);
+    }, [settlementData]);
 
   return (
     <div className="flex-1 flex">
@@ -89,7 +97,6 @@ export default function MapsTest(){
           <SampleResults
             open={open}
             setOpen={setOpen}
-            data={data}
             setCurrIndex={setCurrIndex}
             currIndex={currIndex}
             setFocusPos={setFocusPos}
@@ -100,10 +107,8 @@ export default function MapsTest(){
         <div className="rounded-[3vw] bg-red-300 flex-1 overflow-hidden">
           {focusPos && ( // Ensure focusPos is available before rendering the map
             <Map
-              data={data}
               focusPos={focusPos}
               setFocusPos={setFocusPos}
-              setData={setData}
             />
           )}
         </div>

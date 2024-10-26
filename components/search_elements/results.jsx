@@ -2,15 +2,17 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import FilterTags from "./filter_tags";
+import { useCoords } from "@/app/_context/CoordsContext";
 
 export default function SampleResults({
   open,
   setOpen,
   setCurrIndex,
-  data,
   currIndex,
   setFocusPos,
 }) {
+
+    const {settlementData, setSettlementData} = useCoords();
 
   const handleShowBrief = (index, fruit) => {
     if (open && currIndex !== undefined && index === currIndex) {
@@ -27,7 +29,7 @@ export default function SampleResults({
         <div>
             <FilterTags/>
             <ul className="text-black mt-[2vw]">
-                {data.map((fruit, index) => (
+                {settlementData.map((fruit, index) => (
                     <li>
                     <button key={index} className="min-h-[8vw] flex items-center w-full" onClick={()=>{handleShowBrief(index, fruit)}}>
                         <div className="max-h-[7.5vw] overflow-hidden rounded-[0.5vw]">

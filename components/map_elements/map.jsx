@@ -4,6 +4,7 @@ import "leaflet/dist/leaflet.css";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.webpack.css";
 import "leaflet-defaulticon-compatibility";
 import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
+import { useCoords } from "@/app/_context/CoordsContext";
 
 function SetViewOnClick({ focusPos, refreshFlag }) {
     const map = useMap();
@@ -19,14 +20,16 @@ function SetViewOnClick({ focusPos, refreshFlag }) {
   }, [focusPos, map, refreshFlag]);
 }
  
-export default function Map({ data, focusPos, setFocusPos, setData }) {
+export default function Map({ focusPos, setFocusPos }) {
   let test = true;
 
+  const {settlementData, setSettlementData} = useCoords()
+
   const toggleLike = (index) => {
-    const newData = data.map((item, i) =>
+    const newData = settlementData.map((item, i) =>
       i === index ? { ...item, liked: !item.liked } : item
     );
-    setData(newData);
+    setSettlementData(newData);
   };
 
   const likedImageSrc = (item) => `/liked.png`;
@@ -36,7 +39,7 @@ export default function Map({ data, focusPos, setFocusPos, setData }) {
 
   return (
     <MapContainer
-      center={data[0].address.location}
+      center={settlementData[0].address.location}
       zoom={13}
       scrollWheelZoom={false}
       style={{
@@ -49,7 +52,7 @@ export default function Map({ data, focusPos, setFocusPos, setData }) {
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      {data.map((item, index) => (
+      {settlementData.map((item, index) => (
         // <button onClick={handlePosCenter}>
 
         <Marker
