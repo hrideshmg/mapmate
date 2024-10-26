@@ -75,21 +75,22 @@ export default function SearchForm({ locstate }) {
                 <input type="text" placeholder="Company" className="w-full rounded-[2vw] min-h-[4vw]"></input> */}
                 <div className="flex">
                     <p className="text-[2vw] mr-[1vw]">Location:</p>
-                    <input id="location" 
+                    <input id="location"
                         placeholder="vijay nagar"
                         value={state.location}
                         onChange={handleChange}
+                        onBlur={handleBlur}
                         required type="text" className="bg-transparent w-full px-[0.5vw] text-[2vw]"></input>
                 </div>
                 <div className="h-[2px] bg-black w-full mb-[0.5vw]"></div>
                 <div className="flex-row">
                     <p className="text-[2vw] mr-[1vw]">What are you looking for :</p>
-                    <textarea 
-                        id="desc" 
+                    <textarea
+                        id="desc"
                         placeholder="home"
                         value={state.desc}
                         onChange={handleChange}
-                        required 
+                        required
                         className="bg-transparent w-full px-[0.5vw] text-[2vw] h-[15vh] word-wrap break-all max-w-[100%]"
                     />
                 </div>
@@ -110,8 +111,8 @@ export default function SearchForm({ locstate }) {
             </div>
             <div className="flex w-[30vw]">
                 <div className="flex flex-col flex-1">
-                <div className="flex">
-                    {/* <div>
+                    <div className="flex">
+                        {/* <div>
                         <div className="flex">
                             <p className="text-[2vw] mr-[1vw]">Price:</p>
                             <input id="max_price" 
@@ -123,7 +124,7 @@ export default function SearchForm({ locstate }) {
                         </div>
                         <div className="h-[2px] bg-black w-full mb-[0.5vw]"></div>
                     </div> */}
-                    {/* <div>
+                        {/* <div>
                         <div className="flex">
                             <p className="text-[2vw] mr-[1vw]">Owners:</p>
                             <input id="owner_count" 
