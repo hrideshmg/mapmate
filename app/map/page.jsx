@@ -1,13 +1,13 @@
-'use client'
+"use client";
 
-import ProductBrief from "@/components/data_display/prod_brief"
-import Map from "@/components/map_elements/map"
-import SampleResults from "@/components/search_elements/results"
-import SearchBar from "@/components/search_elements/search_bar"
-import { useEffect, useState } from "react"
-import Image from "next/image"
-import axios from "axios"
-import { ACCESS_FILTER, ACCESS_TOKEN_NAME } from "../_constants/constants"
+import ProductBrief from "@/components/data_display/prod_brief";
+import Map from "@/components/map_elements/map";
+import SampleResults from "@/components/search_elements/results";
+import SearchBar from "@/components/search_elements/search_bar";
+import { useEffect, useState } from "react";
+import Image from "next/image";
+import axios from "axios";
+import { ACCESS_FILTER, ACCESS_TOKEN_NAME } from "../_constants/constants";
 
 export default function MapsTest(){
     const [open, setOpen] = useState(false);
@@ -126,11 +126,11 @@ export default function MapsTest(){
     const [currIndex, setCurrIndex] = useState(null);
     const [focusPos, setFocusPos] = useState(null); 
 
-    useEffect(()=>{
-        if (currIndex != null){
-            setCurrBrief(data[currIndex]);
-        }
-    },[currIndex])
+  useEffect(() => {
+    if (currIndex != null) {
+      setCurrBrief(data[currIndex]);
+    }
+  }, [currIndex]);
 
     useEffect(()=>{
         if (data.length > 0) {
@@ -138,31 +138,39 @@ export default function MapsTest(){
         }
     }, [data]);
 
-    return(
-        <div className="flex-1 flex">
-            <div className="bg-light flex-1 h-screen flex flex-col p-[1vw]">
-                <div className="text-black text-[3vw] tracking-tighter font-semibold">
-                    URBANALYZE
-                </div>
-                <div className="w-full">
-                    <SearchBar/>
-                </div>
-                <div className="flex-1">
-                    <SampleResults 
-                        open={open} setOpen={setOpen}
-                        data={data} setCurrIndex={setCurrIndex}
-                        currIndex={currIndex} setFocusPos={setFocusPos} 
-                    />
-                </div>
-            </div>
-            <div className="bg-light flex-[3] flex justify-end">
-                <div className="rounded-[3vw] bg-red-300 flex-1 overflow-hidden">
-                    {focusPos && (  // Ensure focusPos is available before rendering the map
-                        <Map data={data} focusPos={focusPos} setFocusPos={setFocusPos} />
-                    )}
-                </div>
-                <ProductBrief open={open} setOpen={setOpen} currBrief={currBrief}/>
-            </div>
+  return (
+    <div className="flex-1 flex">
+      <div className="bg-light flex-1 h-screen flex flex-col p-[1vw]">
+        <div className="text-black text-[3vw] tracking-tighter font-semibold">
+          URBANALYZE
         </div>
-    );
+        <div className="w-full">
+          <SearchBar />
+        </div>
+        <div className="flex-1">
+          <SampleResults
+            open={open}
+            setOpen={setOpen}
+            data={data}
+            setCurrIndex={setCurrIndex}
+            currIndex={currIndex}
+            setFocusPos={setFocusPos}
+          />
+        </div>
+      </div>
+      <div className="bg-light flex-[3] flex justify-end">
+        <div className="rounded-[3vw] bg-red-300 flex-1 overflow-hidden">
+          {focusPos && ( // Ensure focusPos is available before rendering the map
+            <Map
+              data={data}
+              focusPos={focusPos}
+              setFocusPos={setFocusPos}
+              setData={setData}
+            />
+          )}
+        </div>
+        <ProductBrief open={open} setOpen={setOpen} currBrief={currBrief} />
+      </div>
+    </div>
+  );
 }

@@ -1,10 +1,9 @@
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import "leaflet/dist/leaflet.css";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.webpack.css";
 import "leaflet-defaulticon-compatibility";
-import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
-import { useState, useEffect } from "react";
-import { useMap } from "react-leaflet";
+import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
 
 function SetViewOnClick({ focusPos, refreshFlag }) {
     const map = useMap();
@@ -21,36 +20,25 @@ function SetViewOnClick({ focusPos, refreshFlag }) {
 
     return null;
 }
+export default function Map({ data, focusPos, setFocusPos, setData }) {
+  let test = true;
 
-export default function Map({ data, focusPos, setFocusPos }) {
-    // const all_pos = [
-    //     [51.505, -0.09],
-    //     [51.5051, -0.10],
-    //     [51.5052, -0.15],
-    //     [51.5049, -0.2],
-    //     [51.5048, -0.175],
-    //     [51.5053, -0.125],
-    // ]
-    // const [focusPos, setFocusPos] = useState(all_pos[0]);
-    // const handlePosCenter=({position})=>{
-    //     setFocusPos(position)
-    // }
-    // function SetViewOnClick({ coord }) {
-    //     const map = useMap();
-    //     console.log(coord)
-    //     map.setView(coord, map.getZoom());
+  const toggleLike = (index) => {
+    const newData = data.map((item, i) =>
+      i === index ? { ...item, liked: !item.liked } : item
+    );
+    setData(newData);
+  };
 
-    //     return null;
-    //   }
-    // const position = [51.505, -0.09]
-    // useEffect(()=>{
-    //     // setData(JSON.parse(localStorage.getItem('put_in')))
-    // },[])
+  const likedImageSrc = (item) => `/liked.png`;
+  const likeImageSrc = (item) => `/like.png`;
 
-    // const changeFocus=(item)=>{
-    //     let lat, lng = item.data.location.coordinates;
-    //     setFocusPos([lat-0.000001, lng])
-    // }
+  //     return null;
+  //   }
+  // const position = [51.505, -0.09]
+  // useEffect(()=>{
+  //     // setData(JSON.parse(localStorage.getItem('put_in')))
+  // },[])
 
     const [refreshFlag, setRefreshFlag] = useState(false)
 
@@ -80,33 +68,41 @@ export default function Map({ data, focusPos, setFocusPos }) {
                     }}
                 >
                     <Popup>
-                        <div className="flex flex-col space-y-2">
-                            <div className="flex items-center">
+                        <div className="flex flex-col space-y-2 pb-0 -mb-1 ">
+                            <div className="flex items-center -mb-2">
+
                                 <img
                                     src="https://upload.wikimedia.org/wikipedia/commons/8/8f/Kochi_Skyline.jpg"
                                     width={1}
                                     height={1}
-                                    className="p-1 min-w-[7vw] h-[6vw]"
+                                    className="p-1 min-w-[8vw] h-[6vw] rounded-xs"
                                     alt="Location image"
                                 />
                                 <p className="text-xs ml-2 pl-3">
                                     Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium harum laborum assumenda, repudiandae nisi soluta porro nam consectetur veritatis voluptatum?
                                 </p>
                             </div>
-                            <div className="flex justify-between items-center m-0">
-                                <p className="text-xl">Location name</p>
-                                <div className="flex items-center space-x-3">
-                                    {/* <div class="h-8 w-8 rounded-full bg-green-400"></div>  */}
+                            <div className="flex justify-between items-baseline ">
+                                <img src="/happy.png" className="w-6 h-6 mr-3" alt="Gun image" />
+                                <div className="text-2xl ">50%</div>                    
+                                <img src="/gun.png" className="w-6 h-6 mr-3" alt="Gun image" />
+                                <div className="text-2xl ">1.7</div>                    
+                                <img src="/rainy.png" className="w-6 h-6 mr-3" alt="rain image" />
+                                <div className="text-2xl ">4.5</div>                    
+                            </div>
+                            <div className="flex justify-between items-baseline ">
+                                <div className="text-2xl ">Location name</div>
+                                <div className="flex items-center space-x-7 ">
                                     <img
                                         width={1}
                                         height={1}
-                                        src={item.liked ? "/liked.png" : "/like.png"}
+                                        src={item.liked ? likedImageSrc(item) : likeImageSrc(item)}
                                         alt="like image"
                                         className="w-6 h-6 cursor-pointer"
                                         onClick={() => toggleLike(index)}
                                     />
-                                    <p className="text-2xl">4.0</p>
                                 </div>
+                                <div className="text-2xl text-green-500 font-bold ">4.5</div>
                             </div>
                         </div>
                     </Popup>
