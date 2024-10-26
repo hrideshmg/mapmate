@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import FilterTags from "./filter_tags";
 
 export default function SampleResults({
   open,
@@ -10,7 +11,6 @@ export default function SampleResults({
   currIndex,
   setFocusPos,
 }) {
-  const tags = ["Alpha", "Beta", "Gamma", "Delta", "Sale"];
 
   const handleShowBrief = (index, fruit) => {
     if (open && currIndex !== undefined && index === currIndex) {
@@ -25,16 +25,7 @@ export default function SampleResults({
 
   return (
         <div>
-            <div className="flex flex-wrap gap-2 mb-4 mt-4">
-                {tags.map((tag, index) => (
-                <span
-                    key={index}
-                    className="px-3 py-1 rounded-full text-sm transition duration-300 ease-in-out bg-[#D2B48C] text-white hover:bg-[#5B3A29]"
-                >
-                    {tag}
-                </span>
-                ))}
-            </div>
+            <FilterTags/>
             <ul className="text-black mt-[2vw]">
                 {data.map((fruit, index) => (
                     <li>
