@@ -38,33 +38,34 @@ export default function SearchForm() {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    const payload = {
-      location: state.location,
-    };
-    axios
-      .post(API_BASE_URL + "/scrape-cars/", payload)
-      .then(function(response) {
-        if (response.status === 200) {
-          setState((prevState) => ({
-            ...prevState,
-            successMessage: "Login successful. Redirecting to home page..",
-          }));
-          //console.log(response.data)
-          // localStorage.setItem(ACCESS_TOKEN_NAME,JSON.stringify(response.data.cars));
-          // localStorage.setItem(ACCESS_FILTER, JSON.stringify(state))
-          redirectToMap();
-        }
-        // else if(response.code === 204){
-        //     props.showError("Username and password do not match");
-        // }
-        else {
-          // alert("Username does not exists");
-          console.log(response.data);
-        }
-      })
-      .catch(function(error) {
-        console.log(error);
-      });
+    redirectToMap()
+    // const payload = {
+    //   location: state.location,
+    // };
+    // axios
+    //   .post(API_BASE_URL + "/scrape-cars/", payload)
+    //   .then(function(response) {
+    //     if (response.status === 200) {
+    //       setState((prevState) => ({
+    //         ...prevState,
+    //         successMessage: "Login successful. Redirecting to home page..",
+    //       }));
+    //       //console.log(response.data)
+    //       // localStorage.setItem(ACCESS_TOKEN_NAME,JSON.stringify(response.data.cars));
+    //       // localStorage.setItem(ACCESS_FILTER, JSON.stringify(state))
+    //       redirectToMap();
+    //     }
+    //     // else if(response.code === 204){
+    //     //     props.showError("Username and password do not match");
+    //     // }
+    //     else {
+    //       // alert("Username does not exists");
+    //       console.log(response.data);
+    //     }
+    //   })
+    //   .catch(function(error) {
+    //     console.log(error);
+    //   });
     //axios post
   };
   const redirectToMap = () => {

@@ -54,7 +54,7 @@ export async function getAQI(lat, lon) {
 export async function getWeather(lat, lon) {
   // ["timelines"]["daily"]
   const response = await fetch(
-    `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m&past_days=7`,
+    `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,weather_code&past_days=7`,
   );
   return await handleFetchResponse(response);
 }
