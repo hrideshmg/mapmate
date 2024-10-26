@@ -52,37 +52,43 @@ export default function Map({ data, focusPos, setFocusPos, setData }) {
           }}
         >
           <Popup>
-            <div className="flex flex-col space-y-2">
-              <div className="flex items-center">
-                <img
-                  src="https://upload.wikimedia.org/wikipedia/commons/8/8f/Kochi_Skyline.jpg"
-                  width={1}
-                  height={1}
-                  className="p-1 min-w-[7vw] h-[6vw]"
-                  alt="Location image"
-                />
-                <p className="text-xs ml-2 pl-3">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Accusantium harum laborum assumenda, repudiandae nisi soluta
-                  porro nam consectetur veritatis voluptatum?
-                </p>
-              </div>
-              <div className="flex justify-between items-center m-0">
-                <p className="text-2xl">Location name</p>
-                <div className="flex items-center space-x-3">
-                  <img
-                    width={1}
-                    height={1}
-                    src={item.liked ? likedImageSrc(item) : likeImageSrc(item)}
-                    alt="like image"
-                    className="w-6 h-6 cursor-pointer"
-                    onClick={() => toggleLike(index)}
-                  />
-                  <p className="text-2xl text-green-500 font-bold">4.5</p>
-                </div>
-              </div>
-            </div>
-          </Popup>
+                        <div className="flex flex-col space-y-2 pb-0 -mb-1 ">
+                            <div className="flex items-center -mb-2">
+                                <img
+                                    src="https://upload.wikimedia.org/wikipedia/commons/8/8f/Kochi_Skyline.jpg"
+                                    width={1}
+                                    height={1}
+                                    className="p-1 min-w-[8vw] h-[6vw] rounded-xs"
+                                    alt="Location image"
+                                />
+                                <p className="text-xs ml-2 pl-3">
+                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium harum laborum assumenda, repudiandae nisi soluta porro nam consectetur veritatis voluptatum?
+                                </p>
+                            </div>
+                            <div className="flex justify-between items-baseline ">
+                                <img src="/happy.png" className="w-6 h-6 mr-3" alt="Gun image" />
+                                <div className="text-2xl ">50%</div>                    
+                                <img src="/gun.png" className="w-6 h-6 mr-3" alt="Gun image" />
+                                <div className="text-2xl ">1.7</div>                    
+                                <img src="/rainy.png" className="w-6 h-6 mr-3" alt="rain image" />
+                                <div className="text-2xl ">4.5</div>                    
+                            </div>
+                            <div className="flex justify-between items-baseline ">
+                                <div className="text-2xl ">Location name</div>
+                                <div className="flex items-center space-x-7 ">
+                                    <img
+                                        width={1}
+                                        height={1}
+                                        src={item.liked ? likedImageSrc(item) : likeImageSrc(item)}
+                                        alt="like image"
+                                        className="w-6 h-6 cursor-pointer"
+                                        onClick={() => toggleLike(index)}
+                                    />
+                                </div>
+                                <div className="text-2xl text-green-500 font-bold ">4.5</div>
+                            </div>
+                        </div>
+                    </Popup>
         </Marker>
       ))}
     </MapContainer>
