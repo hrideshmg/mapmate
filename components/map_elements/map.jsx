@@ -6,16 +6,18 @@ import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import { useState, useEffect } from "react";
 import { useMap } from "react-leaflet";
 
-function SetViewOnClick({ focusPos }) {
+function SetViewOnClick({ focusPos, refreshFlag }) {
     const map = useMap();
     
     console.log(focusPos,'here is focuspos inside map')
     useEffect(() => {
+
+        // console.log(typeof(focusPos[0]), 'here is typ')
         if (focusPos) {
             map.setView(focusPos, map.getZoom());
             console.log(focusPos)
         }
-    }, [focusPos, map]);
+    }, [focusPos, map, refreshFlag]);
 
     return null;
 }
@@ -46,9 +48,11 @@ export default function Map({ data, focusPos, setFocusPos }) {
     // },[])
 
     // const changeFocus=(item)=>{
-    //     setFocusPos(item.data.location.coordinates)
-    //     setCoords(item.data.location.coordinates)
+    //     let lat, lng = item.data.location.coordinates;
+    //     setFocusPos([lat-0.000001, lng])
     // }
+
+    const [refreshFlag, setRefreshFlag] = useState(false)
 
     return (
         <MapContainer center={focusPos} zoom={13} scrollWheelZoom={false} style={{ height: "100vh", width: "100%", boxShadow: 'inset 0 0 60px -12px gray' }}>
@@ -62,7 +66,16 @@ export default function Map({ data, focusPos, setFocusPos }) {
                     <Marker position={item.data.location.coordinates} key={index} 
                     eventHandlers={{
                         click: () => {
-                            setFocusPos(item.data.location.coordinates);
+                            if (item.data.location.coordinates!=focusPos){
+                                setFocusPos(item.data.location.coordinates);
+                            }else{
+                                
+                                if (refreshFlag==true){
+                                    setRefreshFlag(false)
+                                }else{
+                                    setRefreshFlag(true)
+                                }
+                            }
                         },
                     }}
                 >
@@ -100,7 +113,7 @@ export default function Map({ data, focusPos, setFocusPos }) {
                 </Marker>
             ))}
             {/* <onCh */}
-            <SetViewOnClick focusPos={focusPos} />
+            <SetViewOnClick focusPos={focusPos} refreshFlag={refreshFlag} />
         </MapContainer>
     );
 }
