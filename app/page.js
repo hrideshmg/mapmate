@@ -29,7 +29,7 @@ export default function Home() {
           />
           <Marker position={position}>
             <Popup>
-              A pretty CSS3 popup. <br /> Easily customizable.
+              Select your dream with our perfect calculations.
             </Popup>
           </Marker>
           {/* Call the function to control map movement */}
@@ -48,7 +48,7 @@ export default function Home() {
           </div>
           <div className="flex-1 flex">
             {/* Enable pointer events on interactive elements */}
-            <div className="pointer-events-auto">
+            <div className="pointer-events-auto p-2 rounded-3xl" style={{ boxShadow: "inset 0 0 30px -8px rgba(128, 128, 128, 0.7)" }}>
               <SearchForm />
             </div>
           </div>
