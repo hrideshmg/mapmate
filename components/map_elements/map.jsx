@@ -10,18 +10,11 @@ function SetViewOnClick({ focusPos }) {
     const map = useMap();
   
     useEffect(() => {
-<<<<<<< HEAD
-        if (focusPos) {
-            map.setView(focusPos.coord, map.getZoom());
-            console.log(focusPos)
-        }
-=======
     //   if (focusPos) {
     //     map.setView(focusPos, map.getZoom());
     //     console.log(focusPos)
     //   }
     console.log(focusPos.data.location.coordinates, "here is focus")
->>>>>>> b34daa6 (added and mapped dummy json)
     }, [focusPos, map]);
   
     return null;
