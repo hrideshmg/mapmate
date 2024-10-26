@@ -144,9 +144,9 @@ export default function MapsTest(){
         <div className="text-black text-[3vw] tracking-tighter font-semibold">
           URBANALYZE
         </div>
-        <div className="w-full">
+        {/* <div className="w-full">
           <SearchBar />
-        </div>
+        </div> */}
         <div className="flex-1">
           <SampleResults
             open={open}
