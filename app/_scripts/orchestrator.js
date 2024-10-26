@@ -42,6 +42,8 @@ export async function triggerGeoFusion(coords, radius, { setProgress }) {
 
       const aqi = await getAQI(s_lat, s_lon);
       const weather = await getWeather(s_lat, s_lon);
+      const avg_weather_code= weather["current"]["weather_code"];
+      // console.log(avg_weather_code);
       const avg_humidity = weather["current"]["temperature_2m"];
       const avg_temperature = weather["current"]["relative_humidity_2m"];
       const nominatim = await nomainatimQuery(s_lat, s_lon);
@@ -73,6 +75,7 @@ export async function triggerGeoFusion(coords, radius, { setProgress }) {
       settlement_data["address"]["location"] = [s_lat, s_lon];
       settlement_data["amenities"]["closest_hosp_name"] = closest_hospital_name;
       settlement_data["amenities"]["closest_hosp_dist"] = closest_hospital_dist;
+      settlement_data["weather"]["code"] = avg_weather_code;
       settlement_data["weather"]["temperature"] = avg_temperature;
       settlement_data["weather"]["humidity"] = avg_humidity;
       settlement_data["calamity"]["river_discharge"] = river_discharge_avg;
