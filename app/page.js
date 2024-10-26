@@ -10,7 +10,7 @@ import { useCoords } from "./_context/CoordsContext";
 
 export default function Home() {
   const position = [51.23, -0.09];
-  const { coords, setCoords } = useCoords();
+  const { coords, setCoords, settlementData } = useCoords();
 
   return (
     <div className="relative bg-transparent text-black">
@@ -28,12 +28,11 @@ export default function Home() {
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
           <Marker position={position}>
-            <Popup>
-              A pretty CSS3 popup. <br /> Easily customizable.
-            </Popup>
+            <Popup>Select your dream with our perfect calculations.</Popup>
           </Marker>
           {/* Call the function to control map movement */}
           <MapMover coords={coords} />
+          <Tester settlementData={settlementData} />
         </MapContainer>
 
         {/* Overlay content */}
@@ -48,7 +47,12 @@ export default function Home() {
           </div>
           <div className="flex-1 flex">
             {/* Enable pointer events on interactive elements */}
-            <div className="pointer-events-auto">
+            <div
+              className="pointer-events-auto p-2 rounded-3xl"
+              style={{
+                boxShadow: "inset 0 0 30px -8px rgba(128, 128, 128, 0.7)",
+              }}
+            >
               <SearchForm />
             </div>
           </div>
@@ -56,6 +60,12 @@ export default function Home() {
       </div>
     </div>
   );
+}
+
+function Tester({ settlementData }) {
+  useEffect(() => {
+    console.log(settlementData);
+  }, [settlementData]);
 }
 
 function MapMover({ coords }) {

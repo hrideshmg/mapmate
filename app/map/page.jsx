@@ -8,77 +8,81 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import axios from "axios";
 import { ACCESS_FILTER, ACCESS_TOKEN_NAME } from "../_constants/constants";
+import { useCoords } from "../_context/CoordsContext";
 
-export default function MapsTest() {
-  const [open, setOpen] = useState(false);
-  const [data, setData] = useState([
-    {
-      url: "https://www.cars24.com/buy-used-hyundai-eon-2016-cars-kochi-13036881709/",
-      status: "success",
-      data: {
-        city: "Kochi",
-        state: "Kerala",
-        country: "India",
+
+export default function MapsTest(){
+    const {settlementData, setSettlementData} = useCoords();
+    const [open, setOpen] = useState(false);
+    const [data, setData] = useState([
+      {
         address: {
+          display_name: "Abad Pepper Route, KB Jacob Road, Fort Nagar, Fort Kochi, Kochi, Ernakulam, Kerala, 682001, India",
           city: "Kochi",
-          county: "Kochi",
-          state_district: "Ernakulam",
           state: "Kerala",
-          "ISO3166-2-lvl4": "IN-KL",
-          postcode: "682001",
           country: "India",
-          country_code: "in",
+          location: [51,-0.09]
         },
-        location: {
-          type: "Point",
-          coordinates: [51.26022, 9.93988],
+        amenities: {
+          closest_hosp_name: "Nair's Hospital , Kochi",
+          closest_hosp_dist: 8.17306791852232
         },
-        current: {
-          pollution: {
-            ts: "2024-10-26T05:00:00.000Z",
-            aqius: 93,
-            mainus: "p2",
-            aqicn: 47,
-            maincn: "p1",
-          },
-          weather: {
-            ts: "2024-10-26T06:00:00.000Z",
-            tp: 29,
-            pr: 1011,
-            hu: 69,
-            ws: 2.51,
-            wd: 221,
-            ic: "03d",
-          },
-          geography: {
-            river_discharge: 234.345,
-            water_lvl: 214.22,
-            elevation: 4326.43,
-            land_cover: 345.22,
-            infrastructure: "agriculture",
-            historical_floods: 3,
-            floods_occured: 2,
-          },
+        weather: {
+          temperature: 90,
+          humidity: 26
         },
+        calamity: {
+          river_discharge: 14.374865900383185,
+          earthquakes: 0,
+          aqi: 51
+        },
+        index: 75
       },
-    },
-  ]);
-  const [inter, setInter] = useState();
-  const [currBrief, setCurrBrief] = useState({});
-  const [currIndex, setCurrIndex] = useState(null);
-  const [focusPos, setFocusPos] = useState(null);
+      {
+        address: {
+          display_name: "Abad Pepper Route, KB Jacob Road, Fort Nagar, Fort Kochi, Kochi, Ernakulam, Kerala, 682001, India",
+          city: "Kochi",
+          state: "Kerala",
+          country: "India",
+          location: [51,0.09]
+        },
+        amenities: {
+          closest_hosp_name: "Nair's Hospital , Kochi",
+          closest_hosp_dist: 8.17306791852232
+        },
+        weather: {
+          temperature: 90,
+          humidity: 26
+        },
+        calamity: {
+          river_discharge: 14.374865900383185,
+          earthquakes: 0,
+          aqi: 51
+        },
+        index: 75
+      }
+    ]);
+
+    useEffect(()=>{
+      console.log(settlementData)
+        setData(settlementData);
+    },[])
+    const [inter, setInter] = useState();
+    const [currBrief, setCurrBrief] = useState({});
+    const [currIndex, setCurrIndex] = useState(null);
+    const [focusPos, setFocusPos] = useState(null); 
 
   useEffect(() => {
     if (currIndex != null) {
-      setCurrBrief(data[currIndex]);
+      setCurrBrief(settlementData[currIndex]);
     }
   }, [currIndex]);
 
-  useEffect(() => {
-    if (data.length > 0) {
-      setFocusPos(data[0]);
-    }
-  }, [data]);
+    useEffect(()=>{
+        if (settlementData.length > 0) {
+            setFocusPos(settlementData[0].address.location);
+        }
+    }, [settlementData]);
 
   return (
     <div className="flex-1 flex">
@@ -86,14 +90,13 @@ export default function MapsTest() {
         <div className="text-black text-[3vw] tracking-tighter font-semibold">
           URBANALYZE
         </div>
-        <div className="w-full">
+        {/* <div className="w-full">
           <SearchBar />
-        </div>
+        </div> */}
         <div className="flex-1">
           <SampleResults
             open={open}
             setOpen={setOpen}
-            data={data}
             setCurrIndex={setCurrIndex}
             currIndex={currIndex}
             setFocusPos={setFocusPos}
@@ -104,10 +107,8 @@ export default function MapsTest() {
         <div className="rounded-[3vw] bg-red-300 flex-1 overflow-hidden">
           {focusPos && ( // Ensure focusPos is available before rendering the map
             <Map
-              data={data}
               focusPos={focusPos}
               setFocusPos={setFocusPos}
-              setData={setData}
             />
           )}
         </div>
