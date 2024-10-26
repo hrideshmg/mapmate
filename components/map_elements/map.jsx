@@ -10,34 +10,37 @@ function SetViewOnClick({ focusPos }) {
     const map = useMap();
   
     useEffect(() => {
+<<<<<<< HEAD
         if (focusPos) {
             map.setView(focusPos.coord, map.getZoom());
             console.log(focusPos)
         }
+=======
+    //   if (focusPos) {
+    //     map.setView(focusPos, map.getZoom());
+    //     console.log(focusPos)
+    //   }
+    console.log(focusPos.data.location.coordinates, "here is focus")
+>>>>>>> b34daa6 (added and mapped dummy json)
     }, [focusPos, map]);
   
     return null;
 }
 
-export default function Map({ data, focusPos, setFocusPos }) {
-    const toggleLike = (index) => {
-        setFocusPos((prevFocusPos) => {
-            const newData = [...data];
-            newData[index].liked = !newData[index].liked;
-            return newData[index];
-        });
-    };
-
-    return (
-        <MapContainer center={data[1].coord} zoom={13} scrollWheelZoom={false} style={{ height: "100vh", width: "100%", boxShadow: 'inset 0 0 60px -12px gray' }}>
+export default function Map({data, focusPos, setFocusPos}){
+    useEffect(()=>{
+        console.log("here is data ", data[0].data.location.coordinates)
+    },[])
+    return(
+        <MapContainer center={data[0].data.location.coordinates} zoom={13} scrollWheelZoom={false} style={{ height: "100vh", width: "100%" , boxShadow: 'inset 0 0 60px -12px gray'}}>
             <TileLayer
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
             {data.map((item, index) => (
-                <Marker
-                    position={item.coord}
-                    key={index}
+                // <button onClick={handlePosCenter}>
+                
+                    <Marker position={item.data.location.coordinates} key={index} 
                     eventHandlers={{
                         click: () => {
                             setFocusPos(item);

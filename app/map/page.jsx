@@ -13,31 +13,58 @@ export default function MapsTest(){
     const [open, setOpen] = useState(false);
     const [data, setData] = useState([
         {
-            name:"chevy",
-            price:'Rs.2.3L',
-            coord: [51.505, -0.09],
-            transmission: "auto",
-            cost: 245,
-            mileage: 12.3,
-            fuel_type: 'diesel',
-            prev_owner_count: 3,
-            url:"https://www.cars24.com/buy-used-honda-city-2017-cars-kochi-16791234786/",
-            source:"Cars24",
-            image_url:"https://fastly-production.24c.in/hello-ar/dev/uploads/no_bg/20784cf8-5978-11ef-bd34-02ede2007fbe/66bb5f2f54610dff313842c5/85e39b0c-1aa5-40b6-ab6a-a8ea70e8c4e4/slot/16791234786-eedab0200cc24dcbb8968bd68b163127-Exterior-7.png?w=240&auto=format&dpr=2"
-        },
-        {
-            name:'mazda',
-            price: 'Rs.4.3L',
-            coord: [10.042787179069377, 76.3284576954426],
-            transmission: "manuel",
-            cost: 912,
-            mileage: 39.2,
-            fuel_type: 'petrol',
-            prev_owner_count: 1,
             url:"https://www.cars24.com/buy-used-hyundai-eon-2016-cars-kochi-13036881709/",
-            source:"Cars24",
-            image_url:"https://fastly-production.24c.in/hello-ar/dev/uploads/no_bg/13d6eaca-548e-11ef-bd34-02ede2007fbe/66b31de4dfc86b63c06f0508/24a6b3de-b410-46d6-b42a-cee9c457619f/slot/16134630730-a6a88ee48b704036be71786fb89216aa-Exterior-7.png?w=240&auto=format&dpr=2"
-        },
+            status: "success",
+            data: {
+              city: "Kochi",
+              state: "Kerala",
+              country: "India",
+              address: {
+                city: "Kochi",
+                county: "Kochi",
+                state_district: "Ernakulam",
+                state: "Kerala",
+                "ISO3166-2-lvl4": "IN-KL",
+                postcode: "682001",
+                country: "India",
+                country_code: "in"
+                },
+              location: {
+                type: "Point",
+                coordinates: [
+                    51.26022,
+                    9.93988
+                ]
+              },
+              current: {
+                pollution: {
+                  ts: "2024-10-26T05:00:00.000Z",
+                  aqius: 93,
+                  mainus: "p2",
+                  aqicn: 47,
+                  maincn: "p1"
+                },
+                weather: {
+                  ts: "2024-10-26T06:00:00.000Z",
+                  tp: 29,
+                  pr: 1011,
+                  hu: 69,
+                  ws: 2.51,
+                  wd: 221,
+                  ic: "03d",
+                },
+                geography: {
+                    river_discharge: 234.345,
+                    water_lvl: 214.22,
+                    elevation: 4326.43,
+                    land_cover: 345.22,
+                    infrastructure: "agriculture",
+                    historical_floods: 3,
+                    floods_occured: 2
+                }
+              }
+            }
+          }
     ]);
     const [inter, setInter] = useState();
     const [currBrief, setCurrBrief] = useState({});

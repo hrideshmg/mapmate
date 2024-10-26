@@ -10,7 +10,7 @@ export default function SampleResults({open, setOpen, setCurrIndex, data, currIn
         }else{
             setOpen(true)
             setCurrIndex(index)
-            setFocusPos(fruit)
+            setFocusPos(fruit.data.location.coordinates)
         }
         console.log("clicked brief open", open, index, fruit)
     }
@@ -24,21 +24,11 @@ export default function SampleResults({open, setOpen, setCurrIndex, data, currIn
                             <Image src={fruit.image_url} width={5} height={5} className="h-auto min-w-[7.5vw]" unoptimized/>
                         </div>
                         <div className="flex flex-col min-h-[7.5vw] flex-1 mx-[1vw]">
-                            <div className="text-start">
-                                <p className="text-[1.5vw]">{fruit.name}</p>
-                            </div>
-                            <div className="flex -mt-[0.5vw]">
-                                <Link href={fruit.url} className="hover:bg-white rounded-full min-h-[3vw] min-w-[3vw] flex justify-center items-center">
-                                    {fruit.source=='olx'?
-                                    <Image src="/OLX.png" width={1} height={1} className="max-h-[2vw] w-auto" unoptimized/>
-                                    :fruit.source=='Cars24'?
-                                    <Image src="/cars24web.webp" width={1} height={1} className="max-h-[2vw] w-auto" unoptimized/>
-                                    :fruit.source=='CarWale'?
-                                    <Image src="/carwale.png" width={1} height={1} className="max-h-[2vw] w-auto" unoptimized/>
-                                    :''}
-                                </Link>
-                                <p className="min-h-[3vw] flex items-center">Available Links to buy</p>
-                                
+                            <div className="text-start flex-1 ">
+                                <p className="text-[1.5vw] leading-[1.5vw]">
+                                    {fruit.data.address.city}, {fruit.data.address.county}, {fruit.data.address.state_district}, {fruit.data.address.country}, {fruit.data.address.postcode}
+                                </p>
+                                <p>54</p>
                             </div>
                             <div className="flex-1 flex items-center">
                                 <p className="text-[2vw] font-semibold">{fruit.price}</p>
