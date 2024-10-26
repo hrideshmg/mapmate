@@ -1,32 +1,23 @@
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import "leaflet/dist/leaflet.css";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.webpack.css";
 import "leaflet-defaulticon-compatibility";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
-import { useState, useEffect } from "react";
-import { useMap } from "react-leaflet";
 
-function SetViewOnClick({ focusPos }) {
-    const map = useMap();
-  
-    useEffect(() => {
-        if (focusPos) {
-            map.setView(focusPos.coord, map.getZoom());
-            console.log(focusPos)
-        }
-    }, [focusPos, map]);
-  
-    return null;
-}
+export default function Map({ data, focusPos, setFocusPos, setData}) {
+    let test=true;
 
-export default function Map({ data, focusPos, setFocusPos }) {
     const toggleLike = (index) => {
-        setFocusPos((prevFocusPos) => {
-            const newData = [...data];
-            newData[index].liked = !newData[index].liked;
-            return newData[index];
-        });
+        const newData = data.map((item, i) => 
+            i === index ? { ...item, liked: !item.liked } : item
+        );
+        setData(newData);
     };
+    
+
+    const likedImageSrc = item => `/liked.png`;
+    const likeImageSrc = item => `/like.png`;
 
     return (
         <MapContainer center={data[1].coord} zoom={13} scrollWheelZoom={false} style={{ height: "100vh", width: "100%", boxShadow: 'inset 0 0 60px -12px gray' }}>
@@ -59,25 +50,23 @@ export default function Map({ data, focusPos, setFocusPos }) {
                                 </p>
                             </div>
                             <div className="flex justify-between items-center m-0">
-                                <p className="text-xl">Location name</p>
+                                <p className="text-2xl">Location name</p>
                                 <div className="flex items-center space-x-3">
-                                    {/* <div class="h-8 w-8 rounded-full bg-green-400"></div>  */}
                                     <img
                                         width={1}
                                         height={1}
-                                        src={item.liked ? "/liked.png" : "/like.png"}
+                                        src={item.liked ? likedImageSrc(item) : likeImageSrc(item)}
                                         alt="like image"
                                         className="w-6 h-6 cursor-pointer"
                                         onClick={() => toggleLike(index)}
                                     />
-                                    <p className="text-2xl">4.0</p>
+                                    <p className="text-2xl text-green-500 font-bold">4.5</p>
                                 </div>
                             </div>
                         </div>
                     </Popup>
                 </Marker>
             ))}
-            <SetViewOnClick focusPos={focusPos} />
         </MapContainer>
     );
 }
