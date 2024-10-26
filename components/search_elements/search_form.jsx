@@ -82,8 +82,8 @@ export default function SearchForm({ locstate }) {
                 <input type="text" placeholder="Model" className="w-full rounded-[2vw] min-h-[4vw] mb-[1vw]"></input>
                 <input type="text" placeholder="Company" className="w-full rounded-[2vw] min-h-[4vw]"></input> */}
                 <div className="flex">
-                    <p className="text-[2vw] mr-[1vw]">Model</p>
-                    <input id="model"
+                    <p className="text-[2vw] mr-[1vw]">Model:</p>
+                    <input id="model" 
                         //placeholder="Model"
                         value={state.password}
                         onChange={handleChange}
@@ -91,8 +91,8 @@ export default function SearchForm({ locstate }) {
                 </div>
                 <div className="h-[2px] bg-black w-full mb-[0.5vw]"></div>
                 <div className="flex">
-                    <p className="text-[2vw] mr-[1vw]">Maker</p>
-                    <input id="maker"
+                    <p className="text-[2vw] mr-[1vw]">Maker:</p>
+                    <input id="maker" 
                         //placeholder="Maker"
                         value={state.password}
                         onChange={handleChange}
@@ -103,56 +103,53 @@ export default function SearchForm({ locstate }) {
             <div className="flex flex-col w-[30vw]">
                 {/* <input type="number" placeholder="mileage" className="w-full rounded-[2vw] min-h-[4vw]"></input>
                 <input type="number" placeholder="location" className="w-full rounded-[2vw] min-h-[4vw] ml-[1vw]"></input> */}
-                <div className="flex">
-                    <p className="text-[2vw] mr-[1vw]">Transmission</p>
-                    <input id="transmission"
+                {/* <div className="flex">
+                    <p className="text-[2vw] mr-[1vw]">Transmission:</p>
+                    <input id="transmission" 
                         //placeholder="Transmission"
                         value={state.password}
                         onChange={handleChange}
                         type="text" className="bg-transparent w-full px-[0.5vw] text-[2vw]"></input>
-                </div>
-                <div className="h-[2px] bg-black w-full mb-[0.5vw]"></div>
+                </div> */}
+                {/* <div className="h-[2px] bg-black w-full mb-[0.5vw]"></div> */}
             </div>
             <div className="flex w-[30vw]">
-                {/* <input type="number" placeholder="cost start range" className="w-full rounded-[2vw] min-h-[4vw]"></input>
-                <input type="number" placeholder="cost end range" className="w-full rounded-[2vw] min-h-[4vw]"></input> */}
                 <div className="flex flex-col flex-1">
-                    <div className="flex">
-                        <div>
-                            <div className="flex">
-                                <p className="text-[2vw] mr-[1vw]">Price</p>
-                                <input id="max_price"
-                                    //placeholder="MaxPrice"
-                                    value={state.password}
-                                    onChange={handleChange}
-                                    type="text"
-                                    className="bg-transparent w-full px-[0.5vw] text-[2vw]"></input>
-                            </div>
-                            <div className="h-[2px] bg-black w-full mb-[0.5vw]"></div>
-                        </div>
-                        <div>
-                            <div className="flex">
-                                <p className="text-[2vw] mr-[1vw]">Owners</p>
-                                <input id="owner_count"
-                                    //placeholder="Owner Count"
-                                    value={state.password}
-                                    onChange={handleChange}
-                                    type="text" className="bg-transparent w-full px-[0.5vw] text-[2vw]"></input>
-                            </div>
-                            <div className="ml-1 rounded-[2vw] h-[2px] bg-black w-full mb-[0.5vw]"></div>
-                        </div>
-                    </div>
-                    <div className="flex">
-                        <p className="text-[2vw] mr-[1vw]">Location</p>
-                        <input id="location"
-                            //placeholder="Location"
+                <div className="flex">
+                    {/* <div>
+                        <div className="flex">
+                            <p className="text-[2vw] mr-[1vw]">Price:</p>
+                            <input id="max_price" 
+                            //placeholder="MaxPrice"
                             value={state.password}
                             onChange={handleChange}
-                            onBlur={handleBlur}
-                            type="text"
+                            type="text" 
                             className="bg-transparent w-full px-[0.5vw] text-[2vw]"></input>
+                        </div>
+                        <div className="h-[2px] bg-black w-full mb-[0.5vw]"></div>
+                    </div> */}
+                    {/* <div>
+                        <div className="flex">
+                            <p className="text-[2vw] mr-[1vw]">Owners:</p>
+                            <input id="owner_count" 
+                            //placeholder="Owner Count"
+                            value={state.password}
+                            onChange={handleChange}
+                            type="text" className="bg-transparent w-full px-[0.5vw] text-[2vw]"></input>
+                        </div>
+                        <div className="ml-1 rounded-[2vw] h-[2px] bg-black w-full mb-[0.5vw]"></div>
+                    </div> */}
                     </div>
-                    <div className="h-[2px] bg-black w-full mb-[0.5vw]"></div>
+                    {/* <div className="flex">
+                        <p className="text-[2vw] mr-[1vw]">Location:</p>
+                        <input id="location" 
+                        //placeholder="Location"
+                        value={state.password}
+                        onChange={handleChange}
+                        type="text" 
+                        className="bg-transparent w-full px-[0.5vw] text-[2vw]"></input>
+                    </div> */}
+                    {/* <div className="h-[2px] bg-black w-full mb-[0.5vw]"></div> */}
                     <button type="submit" className="flex-1 bg-black rounded-[2vw] flex justify-center items-center mt-[1vw] w-full min-h-[4vw]">
                         <p className="text-white">SEARCH</p>
                     </button>
