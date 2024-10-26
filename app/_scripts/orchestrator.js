@@ -1,5 +1,5 @@
-import { useEffect } from "react";
 import {
+  geminiSummarise,
   getAQI,
   getEarthquake,
   getHospital,
@@ -10,6 +10,7 @@ import {
 } from "./integrations";
 
 function haversineDistance(lat1, lon1, lat2, lon2) {
+  // Used to get distance between two lat,lon pairs
   const R = 6371; // Radius of the Earth in km
   const dLat = (lat2 - lat1) * (Math.PI / 180);
   const dLon = (lon2 - lon1) * (Math.PI / 180);
@@ -28,7 +29,6 @@ export async function triggerGeoFusion(coords, radius) {
   const result = [];
   const nearby_settlements = await getNearbySettlements(lat, lon, radius);
 
-  // Use Promise.all with map for async handling
   const settlementsData = await Promise.all(
     nearby_settlements["elements"].map(async (settlement) => {
       const s_lat = settlement["lat"];
@@ -79,12 +79,13 @@ export async function triggerGeoFusion(coords, radius) {
       settlement_data["calamity"]["earthquakes"] =
         earthquakes["features"].length;
       settlement_data["calamity"]["aqi"] = aqi["data"]["aqi"];
+      settlement_data["gemini_summary"] =
+        await geminiSummarise(settlement_data);
 
       return settlement_data;
     }),
   );
 
-  // Add all settlement data to result after all promises resolve
   result.push(...settlementsData);
   return result;
 }

@@ -7,7 +7,7 @@ import {
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { useCoords } from "@/app/_context/CoordsContext";
-import { getCoordinates } from "@/app/_scripts/integrations";
+import { geminiSummarise, getCoordinates } from "@/app/_scripts/integrations";
 import { triggerGeoFusion } from "@/app/_scripts/orchestrator";
 // axios.defaults.headers.common['Access-Control-Allow-Origin']= '*'
 

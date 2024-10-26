@@ -1,3 +1,5 @@
+import { GoogleGenerativeAI } from "@google/generative-ai";
+
 async function handleFetchResponse(response) {
   if (!response.ok) {
     console.error(
@@ -83,4 +85,26 @@ export async function getHospital(lat, lon) {
       `),
   });
   return await handleFetchResponse(response);
+}
+
+export async function geminiSummarise({ settlementData }) {
+  const genAI = new GoogleGenerativeAI(process.env.NEXT_PUBLIC_GEMINI_KEY);
+  const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+
+  const prompt = `
+  Use the following data to create a descriptive summary about what it’s like to live in this area. Describe the climate, healthcare access, environmental factors, and air quality in a informative tone. Avoid using bullet points, instead crafting a smooth narrative that flows naturally from one topic to the next.
+
+  Guidelines for Summary:
+
+  Describe healthcare accessibility
+  Discuss environmental factors like the low earthquake risk and the risk of flood based on river discharge
+  Talk about air quality in relatable terms, mentioning any potential impact on health or lifestyle.
+  Conclude with an inviting thought, encouraging readers to picture themselves in this area, mentioning any unique lifestyle benefits."
+  Use a single paragraph without any blank lines
+
+  ${settlementData}
+`;
+
+  const result = await model.generateContent(prompt);
+  return result.response.text();
 }
