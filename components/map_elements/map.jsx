@@ -3,8 +3,22 @@ import Image from "next/image";
 import "leaflet/dist/leaflet.css";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.webpack.css";
 import "leaflet-defaulticon-compatibility";
-import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
+import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
 
+function SetViewOnClick({ focusPos, refreshFlag }) {
+    const map = useMap();
+
+    console.log(focusPos,'here is focuspos inside map')
+    useEffect(() => {
+
+    // console.log(typeof(focusPos[0]), 'here is typ')
+    if (focusPos) {
+        map.setView(focusPos, map.getZoom());
+        console.log(focusPos)
+    }
+  }, [focusPos, map, refreshFlag]);
+}
+ 
 export default function Map({ data, focusPos, setFocusPos, setData }) {
   let test = true;
 
@@ -17,6 +31,8 @@ export default function Map({ data, focusPos, setFocusPos, setData }) {
 
   const likedImageSrc = (item) => `/liked.png`;
   const likeImageSrc = (item) => `/like.png`;
+
+  const [refreshFlag, setRefreshFlag] = useState(false)
 
   return (
     <MapContainer
@@ -41,7 +57,16 @@ export default function Map({ data, focusPos, setFocusPos, setData }) {
           key={index}
           eventHandlers={{
             click: () => {
-              setFocusPos(item);
+                if (item.data.location.coordinates!=focusPos){
+                    setFocusPos(item.data.location.coordinates);
+                }else{
+                    
+                    if (refreshFlag==true){
+                        setRefreshFlag(false)
+                    }else{
+                        setRefreshFlag(true)
+                    }
+                }
             },
           }}
         >
@@ -105,6 +130,7 @@ export default function Map({ data, focusPos, setFocusPos, setData }) {
                 </Popup>
         </Marker>
       ))}
+      <SetViewOnClick focusPos={focusPos} refreshFlag={refreshFlag} />
     </MapContainer>
   );
 }
