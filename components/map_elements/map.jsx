@@ -60,20 +60,32 @@ export default function Map({ data, focusPos, setFocusPos, setData }) {
                             </p>
                         </div>
                         <div className="flex justify-center">
-                            <div className="flex justify-between items-center space-x-6">
-                                <div className="flex items-center space-x-1">
-                                    <img src="/happy.png" className="w-6 h-6" alt="Happy image" />
-                                    <div className="text-2xl">50%</div>
-                                </div>
-                                <div className="flex items-center space-x-1">
-                                    <img src="/gun.png" className="w-6 h-6" alt="Gun image" />
-                                    <div className="text-2xl">1.7</div>
-                                </div>
-                                <div className="flex items-center space-x-1">
-                                    <img src="/rainy.png" className="w-6 h-6" alt="Rainy image" />
-                                    <div className="text-2xl">90%</div>
-                                </div>
+                        <div className="flex justify-between items-center space-x-6">
+                          <div className="flex items-center space-x-1 group relative">
+                            <img src="/happy.png" className="w-6 h-6" alt="Happy image" />
+                            <div className="text-2xl">50%</div>
+                            <div className="absolute top-full right-0 transform translate-x-52 translate-y-12 mt-2 bg-white w-80 border border-gray-200 text-black text-sm px-2 py-1 rounded opacity-0 group-hover:opacity-85 transition-opacity">
+                              Happyness rate is determined by getting something from some other thing (Hopefully)
                             </div>
+                          </div>
+                          
+                          <div className="flex items-center space-x-1 group relative">
+                            <img src="/gun.png" className="w-6 h-6" alt="Gun image" />
+                            <div className="text-2xl">1.7</div>
+                            <div className="absolute top-full right-0 transform translate-x-32 translate-y-12 mt-2 bg-white w-80 border border-gray-200 text-black text-sm px-2 py-1 rounded opacity-0 group-hover:opacity-85 transition-opacity">
+                              Safety score is determined by getting something from some other thing (Hopefully)
+                            </div>
+                          </div>
+                          
+                          <div className="flex items-center space-x-1 group relative">
+                            <img src="/rainy.png" className="w-6 h-6" alt="Rainy image" />
+                            <div className="text-2xl">90%</div>
+                            <div className="absolute top-full right-0 transform translate-x-6 translate-y-12 mt-2 bg-white w-80 border border-gray-200 text-black text-sm px-2 py-1 rounded opacity-0 group-hover:opacity-85 transition-opacity">
+                                Rain probability is determined by getting something from some other thing (Hopefully)
+                            </div>
+                          </div>
+                        </div>
+
                         </div>
                         <div className="flex justify-between items-baseline ">
                             <div className="text-2xl ">Location name</div>
