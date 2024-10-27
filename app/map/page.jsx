@@ -9,6 +9,7 @@ import Image from "next/image";
 import axios from "axios";
 import { ACCESS_FILTER, ACCESS_TOKEN_NAME } from "../_constants/constants";
 import { useCoords } from "../_context/CoordsContext";
+import Link from "next/link";
 
 
 export default function MapsTest(){
@@ -88,7 +89,7 @@ export default function MapsTest(){
     <div className="flex-1 flex">
       <div className="bg-light flex-1 h-screen flex flex-col p-[1vw]">
         <div className="text-black text-[3vw] tracking-tighter font-semibold">
-          URBANALYZE
+          <Link href="/">URBANALYZE</Link>
         </div>
         {/* <div className="w-full">
           <SearchBar />

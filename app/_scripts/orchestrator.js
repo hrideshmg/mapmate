@@ -24,7 +24,7 @@ function haversineDistance(lat1, lon1, lat2, lon2) {
   return R * c;
 }
 
-export async function triggerGeoFusion(coords, radius) {
+export async function triggerGeoFusion(coords, radius, { setProgress }) {
   const [lat, lon] = coords;
   const result = [];
   const nearby_settlements = await getNearbySettlements(lat, lon, radius);

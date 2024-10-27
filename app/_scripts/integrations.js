@@ -36,7 +36,7 @@ export async function getNearbySettlements(lat, lon, radius) {
       "data=" +
       encodeURIComponent(`
         [out:json];
-        node[place~"town|city|village"](around:${2000},${lat},${lon});
+        node[place~"town|city|village"](around:${radius},${lat},${lon});
         out;
       `),
   });

@@ -10,7 +10,7 @@ import { useCoords } from "./_context/CoordsContext";
 
 export default function Home() {
   const position = [51.23, -0.09];
-  const { coords, setCoords, settlementData } = useCoords();
+  const { coords, settlementData, progress } = useCoords();
 
   return (
     <div className="relative bg-transparent text-black">
@@ -32,7 +32,7 @@ export default function Home() {
           </Marker>
           {/* Call the function to control map movement */}
           <MapMover coords={coords} />
-          <Tester settlementData={settlementData} />
+          <Tester progress={progress} />
         </MapContainer>
 
         {/* Overlay content */}
@@ -47,12 +47,7 @@ export default function Home() {
           </div>
           <div className="flex-1 flex">
             {/* Enable pointer events on interactive elements */}
-            <div
-              className="pointer-events-auto p-2 rounded-3xl"
-              style={{
-                boxShadow: "inset 0 0 30px -8px rgba(128, 128, 128, 0.7)",
-              }}
-            >
+            <div className="pointer-events-auto p-2 rounded-3xl">
               <SearchForm />
             </div>
           </div>
@@ -61,11 +56,10 @@ export default function Home() {
     </div>
   );
 }
-
-function Tester({ settlementData }) {
+function Tester({ progress }) {
   useEffect(() => {
-    console.log(settlementData);
-  }, [settlementData]);
+    console.log(progress);
+  }, [progress]);
 }
 
 function MapMover({ coords }) {
