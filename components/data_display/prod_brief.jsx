@@ -9,7 +9,7 @@ import Link from "next/link";
 
 export default function ProductBrief({ open, setOpen, currBrief }) {
   const [expand, setExpand] = useState({
-    w: "min-w-[30vw]",
+    w: "min-w-[25vw]",
     h: "min-h-[20vw]",
   });
 
@@ -17,6 +17,7 @@ export default function ProductBrief({ open, setOpen, currBrief }) {
     setExpand((prev) => ({
       ...prev,
       h: prev.h === "min-h-[20vw]" ? "min-h-[98vh]" : "min-h-[20vw]",
+      w: prev.h === "min-h-[20vw]" ? "min-w-[30vw]" : "min-w-[25vw]",
     }));
     console.log("hello", expand);
   };
@@ -24,9 +25,13 @@ export default function ProductBrief({ open, setOpen, currBrief }) {
     setOpen(false);
   };
 
+  useEffect(()=>{
+    console.log(currBrief.address?.display_name,'here is currbrief')
+  },[currBrief])
+
   useEffect(() => {
     if (open == false) {
-      setExpand({ w: "min-w-[30vw]", h: "min-h-[20vw]" });
+      setExpand({ w: "min-w-[25vw]", h: "min-h-[20vw]" });
     }
   }, [open]);
   return (
@@ -46,8 +51,8 @@ export default function ProductBrief({ open, setOpen, currBrief }) {
         >
           <ChevronDefaultLeft />
         </button>
-        <div className="text-center font-bold text-2xl text-gray-800 p-4 ">
-          Kochi
+        <div className="text-center font-bold text-2xl text-gray-800">
+          {currBrief.address?.city}
         </div>
         <button
           className="p-2 rounded-full hover:bg-gray-200 transition duration-200"
@@ -57,12 +62,12 @@ export default function ProductBrief({ open, setOpen, currBrief }) {
         </button>
       </div>
 
-      <div className="flex w-[30vw] overflow-hidden max-h-[20vw] rounded-[1vw] border border-gray-300 mt-4">
+      <div className="flex overflow-hidden max-h-[20vw] rounded-[1vw] border border-gray-300 mt-4">
         <Image
           src="/kochi.jpeg"
           width={1}
           height={1}
-          className="h-auto min-w-[30vw] rounded-[1vw]"
+          className={`h-auto ${expand.w} rounded-[1vw]`}
           unoptimized
         />
       </div>
@@ -70,8 +75,11 @@ export default function ProductBrief({ open, setOpen, currBrief }) {
       <div className="pl-[1vw] mt-2">
         <div className="text-[2vw] font-semibold">{currBrief.name}</div>
       </div>
+      <div className={`text-wrap ${expand.w=="min-w-[25vw]"?"max-w-[25vw]":"max-w-[30vw]"} text-[1vw]`}>
+        {currBrief.address?.display_name}2
+      </div>
       <div className="flex flex-wrap justify-between mt-4">
-        <div className="w-[48%] bg-blue-200 rounded-lg p-4 text-center">
+        {/* <div className="w-[48%] bg-blue-200 rounded-lg p-4 text-center">
           <div className="font-bold">Quality Index 1</div>
           <div className="text-lg">Value: 75</div>
         </div>
@@ -86,13 +94,13 @@ export default function ProductBrief({ open, setOpen, currBrief }) {
         <div className="w-[48%] bg-red-200 rounded-lg p-4 text-center">
           <div className="font-bold">Quality Index 4</div>
           <div className="text-lg">Value: 65</div>
-        </div>
+        </div> */}
       </div>
-      {expand.h === "min-h-[98vh]" && (
+      {/* {expand.h === "min-h-[98vh]" && (
         <div className="mt-4 p-4 bg-gray-100 rounded-lg text-center">
           <p className="text-lg">hELLO WORLD</p>
         </div>
-      )}
+      )} */}
 
       <button
         className={`p-2 rounded-full hover:bg-gray-200 transition duration-200 ${
