@@ -85,3 +85,7 @@ Follow these steps to set up URBANALYZE on your local machine:
 Contributions are welcome! Please submit a pull request or open an issue to suggest improvements.
 
 ---
+
+## License
+
+This project is licensed under the [MIT License.](LICENSE)
