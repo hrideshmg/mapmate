@@ -120,13 +120,13 @@ export default function SearchForm() {
         const avg_humidity = weather.current.relative_humidity_2m;
         const avg_temperature = weather.current.temperature_2m;
 
-        const nominatim = await nomainatimQuery(s_lat, s_lon) || { display_name: '', address: {} };
+        const nominatim = (await nomainatimQuery(s_lat, s_lon)).features[0].properties || { formatted: 'API Fetch Failed' };
         setProgress(prevProgress => ({
           ...prevProgress,
           messages: [...prevProgress.messages, `Fetched Location Details For Settlement ${index}`]
         }));
 
-        const display_name = nominatim.display_name;
+        const display_name = nominatim.formatted;
         const river_discharge = (await getRiverDischarge(s_lat, s_lon) || { daily: { river_discharge: [0] } }).daily.river_discharge;
         setProgress(prevProgress => ({
           ...prevProgress,
@@ -168,11 +168,11 @@ export default function SearchForm() {
         settlement_data.index = score;
         settlement_data.address.display_name = display_name;
         settlement_data.address.city =
-          nominatim.address.city ||
-          nominatim.address.town ||
-          nominatim.address.village || 'Unknown';
-        settlement_data.address.state = nominatim.address.state || 'Unknown';
-        settlement_data.address.country = nominatim.address.country || 'Unknown';
+          nominatim.city ||
+          nominatim.town ||
+          nominatim.village || 'Unknown';
+        settlement_data.address.state = nominatim.state || 'Unknown';
+        settlement_data.address.country = nominatim.country || 'Unknown';
         settlement_data.address.location = [s_lat, s_lon];
         settlement_data.amenities.closest_hosp_name = closest_hospital_name;
         settlement_data.amenities.closest_hosp_dist = closest_hospital_dist;
@@ -206,7 +206,7 @@ export default function SearchForm() {
   return (
     <>
       {(isLoading && isLoading != "not yet") ?
-        <Loader/>:
+        <Loader /> :
         <form
           onSubmit={handleSubmit}
           className="min-h-[80vh] min-w-[40vw] bg-light flex justify-center items-center flex-col rounded-[2vw] shadow-[0_10px_20px_rgba(0,0,0,_0.2)]"

@@ -64,16 +64,18 @@ function MapMover({ coords }) {
   map.setZoom(12);
 
   useEffect(() => {
-    let lat = coords[0];
-    let lng = coords[1];
-    const interval = setInterval(() => {
-      lng += 0.001;
-      map.setView([lat, lng], map.getZoom());
-    }, 100);
+    if (coords) {
+      let lat = coords[0];
+      let lng = coords[1];
+      const interval = setInterval(() => {
+        lng += 0.001;
+        map.setView([lat, lng], map.getZoom());
+      }, 100);
 
-    return () => {
-      clearInterval(interval);
-    };
+      return () => {
+        clearInterval(interval);
+      };
+    }
   }, [map, coords]);
 
   return null;

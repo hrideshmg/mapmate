@@ -42,23 +42,21 @@ export async function getCoordinates(location_string) {
   }
 
   try {
-    const endpoint = "https://nominatim.openstreetmap.org/search";
-    const response = await fetch(
-      `${endpoint}?addressdetails=1&format=jsonv2&limit=1&q=${encodeURIComponent(location_string)}`,
-      {
-        headers: {
-          "User-Agent": "YourApp/1.0",
-        },
+    const endpoint = `https://api.geoapify.com/v1/geocode/search?text=${location_string}&apiKey=${process.env.NEXT_PUBLIC_GEO_KEY}`;
+    const response = await fetch(endpoint, {
+      headers: {
+        "User-Agent": "YourApp/1.0",
       },
-    );
+    });
 
     const jsonData = await handleFetchResponse(response, endpoint);
-    if (!jsonData?.length) {
+    if (!response.ok) {
       console.error("Location not found");
       return null;
     }
-
-    const { lat, lon } = jsonData[0];
+    console.log(jsonData);
+    const lat = jsonData.features[0].properties.lat;
+    const lon = jsonData.features[0].properties.lon;
     const coordinates = [parseFloat(lat), parseFloat(lon)];
 
     if (coordinates.some(isNaN)) {
@@ -77,15 +75,12 @@ export async function nomainatimQuery(lat, lon) {
   if (!validateCoordinates(lat, lon)) return null;
 
   try {
-    const endpoint = "https://nominatim.openstreetmap.org/reverse";
-    const response = await fetch(
-      `${endpoint}?lat=${lat}&lon=${lon}&format=json`,
-      {
-        headers: {
-          "User-Agent": "YourApp/1.0",
-        },
+    const endpoint = `https://api.geoapify.com/v1/geocode/reverse?lat=${lat}&lon=${lon}&apiKey=${process.env.NEXT_PUBLIC_GEO_KEY}`;
+    const response = await fetch(endpoint, {
+      headers: {
+        "User-Agent": "YourApp/1.0",
       },
-    );
+    });
     return await handleFetchResponse(response, endpoint);
   } catch (error) {
     console.error("Error in nominatim query:", error);
