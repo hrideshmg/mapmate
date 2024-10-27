@@ -1,5 +1,5 @@
-import { useEffect } from "react";
 import {
+  geminiSummarise,
   getAQI,
   getEarthquake,
   getHospital,
@@ -10,6 +10,7 @@ import {
 } from "./integrations";
 
 function haversineDistance(lat1, lon1, lat2, lon2) {
+  // Used to get distance between two lat,lon pairs
   const R = 6371; // Radius of the Earth in km
   const dLat = (lat2 - lat1) * (Math.PI / 180);
   const dLon = (lon2 - lon1) * (Math.PI / 180);
@@ -23,12 +24,11 @@ function haversineDistance(lat1, lon1, lat2, lon2) {
   return R * c;
 }
 
-export async function triggerGeoFusion(coords, radius) {
+export async function triggerGeoFusion(coords, radius, { setProgress }) {
   const [lat, lon] = coords;
   const result = [];
   const nearby_settlements = await getNearbySettlements(lat, lon, radius);
 
-  // Use Promise.all with map for async handling
   const settlementsData = await Promise.all(
     nearby_settlements["elements"].map(async (settlement) => {
       const s_lat = settlement["lat"];
@@ -42,6 +42,8 @@ export async function triggerGeoFusion(coords, radius) {
 
       const aqi = await getAQI(s_lat, s_lon);
       const weather = await getWeather(s_lat, s_lon);
+      const avg_weather_code= weather["current"]["weather_code"];
+      // console.log(avg_weather_code);
       const avg_humidity = weather["current"]["temperature_2m"];
       const avg_temperature = weather["current"]["relative_humidity_2m"];
       const nominatim = await nomainatimQuery(s_lat, s_lon);
@@ -73,18 +75,20 @@ export async function triggerGeoFusion(coords, radius) {
       settlement_data["address"]["location"] = [s_lat, s_lon];
       settlement_data["amenities"]["closest_hosp_name"] = closest_hospital_name;
       settlement_data["amenities"]["closest_hosp_dist"] = closest_hospital_dist;
+      settlement_data["weather"]["code"] = avg_weather_code;
       settlement_data["weather"]["temperature"] = avg_temperature;
       settlement_data["weather"]["humidity"] = avg_humidity;
       settlement_data["calamity"]["river_discharge"] = river_discharge_avg;
       settlement_data["calamity"]["earthquakes"] =
         earthquakes["features"].length;
       settlement_data["calamity"]["aqi"] = aqi["data"]["aqi"];
+      settlement_data["gemini_summary"] =
+        await geminiSummarise(settlement_data);
 
       return settlement_data;
     }),
   );
 
-  // Add all settlement data to result after all promises resolve
   result.push(...settlementsData);
   return result;
 }

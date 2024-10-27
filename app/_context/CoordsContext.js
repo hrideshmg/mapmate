@@ -6,10 +6,18 @@ const CoordsContext = createContext();
 export function CoordsProvider({ children }) {
   const [coords, setCoords] = useState([51.23, -0.09]);
   const [settlementData, setSettlementData] = useState([]);
+  const [progress, setProgress] = useState({ messages: [], target_len: 0 });
 
   return (
     <CoordsContext.Provider
-      value={{ coords, setCoords, settlementData, setSettlementData }}
+      value={{
+        coords,
+        setCoords,
+        settlementData,
+        setSettlementData,
+        progress,
+        setProgress,
+      }}
     >
       {children}
     </CoordsContext.Provider>
