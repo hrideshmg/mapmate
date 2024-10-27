@@ -23,9 +23,8 @@ export default function SampleResults({
     <div>
       <ul className="text-black mt-[2vw]">
         {settlementData.map((fruit, index) => (
-          <li>
+          <li key={index}>
             <button
-              key={index}
               className="min-h-[8vw] flex items-center w-full"
               onClick={() => {
                 handleShowBrief(index, fruit);

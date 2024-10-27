@@ -35,9 +35,9 @@ function delay(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-export default function SearchForm({isLoading, setIsLoading}) {
+export default function SearchForm({ isLoading, setIsLoading }) {
   const router = useRouter();
-  const { setCoords, settlementData, setSettlementData, setProgress, weights } =
+  const { setCoords, settlementData, setSettlementData, setProgress, weights, coords } =
     useCoords();
 
   const [state, setState] = useState({
@@ -46,10 +46,10 @@ export default function SearchForm({isLoading, setIsLoading}) {
   });
 
   const handleBlur = async (e) => {
-    const coords = await getCoordinates(e.target.value);
-    setCoords(coords);
-    let result = await triggerGeoFusion(coords, 5000);
-    setSettlementData(result);
+    if (e.target.value) {
+      const t_coords = await getCoordinates(e.target.value);
+      setCoords(t_coords);
+    }
   };
 
   const handleChange = (e) => {
@@ -60,10 +60,11 @@ export default function SearchForm({isLoading, setIsLoading}) {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-    //axios post
+    let result = await triggerGeoFusion(coords, 5000);
+    setSettlementData(result);
   };
 
   useEffect(() => {
@@ -73,6 +74,7 @@ export default function SearchForm({isLoading, setIsLoading}) {
       isLoading == true
     ) {
       localStorage.setItem(ACCESS_TOKEN_NAME, JSON.stringify(settlementData));
+      console.log(settlementData)
       redirectToMap();
     }
   }, [settlementData, router]);

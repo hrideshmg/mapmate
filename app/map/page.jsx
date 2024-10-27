@@ -16,69 +16,15 @@ import FilterTags from "@/components/search_elements/filter_tags";
 export default function MapsTest() {
   const { settlementData, setSettlementData } = useCoords();
   const [open, setOpen] = useState(false);
-  const [data, setData] = useState([
-    {
-      address: {
-        display_name: "Abad Pepper Route, KB Jacob Road, Fort Nagar, Fort Kochi, Kochi, Ernakulam, Kerala, 682001, India",
-        city: "Kochi",
-        state: "Kerala",
-        country: "India",
-        location: [51, -0.09]
-      },
-      amenities: {
-        closest_hosp_name: "Nair's Hospital , Kochi",
-        closest_hosp_dist: 8.17306791852232
-      },
-      weather: {
-        temperature: 90,
-        humidity: 26
-      },
-      calamity: {
-        river_discharge: 14.374865900383185,
-        earthquakes: 0,
-        aqi: 51
-      },
-      index: 75
-    },
-    {
-      address: {
-        display_name: "Abad Pepper Route, KB Jacob Road, Fort Nagar, Fort Kochi, Kochi, Ernakulam, Kerala, 682001, India",
-        city: "Kochi",
-        state: "Kerala",
-        country: "India",
-        location: [51, 0.09]
-      },
-      amenities: {
-        closest_hosp_name: "Nair's Hospital , Kochi",
-        closest_hosp_dist: 8.17306791852232
-      },
-      weather: {
-        temperature: 90,
-        humidity: 26
-      },
-      calamity: {
-        river_discharge: 14.374865900383185,
-        earthquakes: 0,
-        aqi: 51
-      },
-      index: 75
-    }
-  ]);
 
   useEffect(() => {
     setSettlementData(JSON.parse(localStorage.getItem(ACCESS_TOKEN_NAME)))
   }, [])
 
   const [inter, setInter] = useState();
-  const [currBrief, setCurrBrief] = useState({});
   const [currIndex, setCurrIndex] = useState(null);
   const [focusPos, setFocusPos] = useState(null);
 
-  useEffect(() => {
-    if (currIndex != null) {
-      setCurrBrief(settlementData[currIndex]);
-    }
-  }, [currIndex]);
 
   useEffect(() => {
     if (settlementData.length > 0) {
@@ -91,7 +37,7 @@ export default function MapsTest() {
       <div className="bg-light flex-1 h-screen flex flex-col px-[1vw] max-h-screen overflow-y-scroll">
         <div className="text-black bg-light text-[3vw] py-[1vw] font-semibold sticky top-0">
           <Link className="tracking-tighter" href="/">URBANALYZE</Link>
-          <FilterTags/>
+          <FilterTags />
         </div>
         {/* <div className="w-full">
           <SearchBar />
@@ -115,7 +61,7 @@ export default function MapsTest() {
             />
           )}
         </div>
-        <ProductBrief open={open} setOpen={setOpen} currBrief={currBrief} />
+        <ProductBrief open={open} setOpen={setOpen} currBrief={settlementData} />
       </div>
     </div>
   );
