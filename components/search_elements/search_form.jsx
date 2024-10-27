@@ -67,7 +67,7 @@ export default function SearchForm() {
   };
 
   useEffect(() => {
-    if (settlementData && Object.keys(settlementData).length > 0 && isLoading==true) {
+    if (settlementData && Object.keys(settlementData).length > 0 && isLoading == true) {
       localStorage.setItem(ACCESS_TOKEN_NAME, JSON.stringify(settlementData));
       redirectToMap();
     }
@@ -209,7 +209,7 @@ export default function SearchForm() {
         <Loader/>:
         <form
           onSubmit={handleSubmit}
-          className="min-h-[80vh] min-w-[40vw] bg-light flex justify-center items-center flex-col rounded-[2vw]"
+          className="min-h-[80vh] min-w-[40vw] bg-light flex justify-center items-center flex-col rounded-[2vw] shadow-[0_10px_20px_rgba(0,0,0,_0.2)]"
         >
           <p className="text-[4.5vw] tracking-tighter w-[30vw] text-start font-semibold">
             ENTER
@@ -220,16 +220,16 @@ export default function SearchForm() {
           </p>
           <div className="flex flex-col w-[30vw]">
             <div className="flex">
-              <p className="text-[2vw] mr-[1vw]">Location:</p>
+              <p className="text-[2vw] mr-[0.1vw]">Location:</p>
               <input
                 id="location"
-                placeholder="vijay nagar"
+                placeholder="Kollam"
                 value={state.location}
                 onChange={handleChange}
                 onBlur={handleBlur}
                 required
                 type="text"
-                className="bg-transparent w-full px-[0.5vw] text-[2vw] border border-transparent focus:border-gray-300 focus:outline-none focus:border-2"
+                className="bg-transparent w-full pl-[0.2vw] pr-[0.5vw] text-[1.6vw] border border-transparent focus:border-gray-300 focus:outline-none focus:border-2"
               />
             </div>
             <div className="h-[2px] bg-black w-full mb-[0.5vw]"></div>
@@ -237,10 +237,10 @@ export default function SearchForm() {
               <p className="text-[2vw] mr-[1vw]">What are you looking for :</p>
               <textarea
                 id="desc"
-                placeholder="home"
+                placeholder="Hospitals, good AQI etc"
                 value={state.desc}
                 onChange={handleChange}
-                className="bg-transparent w-full px-[0.5vw] rounded-xl focus:border-b-0 text-[2vw] h-[15vh] word-wrap break-all max-w-[100%] border border-transparent focus:border-gray-300 focus:outline-none focus:border-2"
+                className="bg-transparent w-full px-[0.5vw] rounded-xl focus:border-b-0 text-[1.6vw] h-[15vh] word-wrap break-all max-w-[100%] border border-transparent focus:border-gray-300 focus:outline-none focus:border-2 leading-tight"
               />
             </div>
 

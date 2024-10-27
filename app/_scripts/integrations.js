@@ -1,32 +1,22 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
-// Custom error class for API-related errors
-class APIError extends Error {
-  constructor(message, status, endpoint) {
-    super(message);
-    this.name = "APIError";
-    this.status = status;
-    this.endpoint = endpoint;
-  }
-}
-
 async function handleFetchResponse(response, endpoint) {
   try {
     if (!response.ok) {
-      throw new APIError(
-        `Request failed with status ${response.status}`,
-        response.status,
-        endpoint,
+      console.error(
+        `Request to ${endpoint} failed with status ${response.status}`,
       );
+      return null;
     }
     const data = await response.json();
     if (!data) {
-      throw new APIError("Empty response received", response.status, endpoint);
+      console.error(`Empty response received from ${endpoint}`);
+      return null;
     }
     return data;
   } catch (error) {
     console.error(`Error handling response from ${endpoint}:`, error);
-    throw error;
+    return null;
   }
 }
 
@@ -39,13 +29,16 @@ function validateCoordinates(lat, lon) {
     lon < -180 ||
     lon > 180
   ) {
-    throw new Error("Invalid coordinates provided");
+    console.error("Invalid coordinates provided");
+    return false;
   }
+  return true;
 }
 
 export async function getCoordinates(location_string) {
   if (!location_string?.trim()) {
-    throw new Error("Location string is required");
+    console.error("Location string is required");
+    return null;
   }
 
   try {
@@ -54,33 +47,34 @@ export async function getCoordinates(location_string) {
       `${endpoint}?addressdetails=1&format=jsonv2&limit=1&q=${encodeURIComponent(location_string)}`,
       {
         headers: {
-          "User-Agent": "YourApp/1.0", // Required by Nominatim's terms of use
+          "User-Agent": "YourApp/1.0",
         },
       },
     );
 
     const jsonData = await handleFetchResponse(response, endpoint);
-
     if (!jsonData?.length) {
-      throw new Error("Location not found");
+      console.error("Location not found");
+      return null;
     }
 
     const { lat, lon } = jsonData[0];
     const coordinates = [parseFloat(lat), parseFloat(lon)];
 
     if (coordinates.some(isNaN)) {
-      throw new Error("Invalid coordinates received from API");
+      console.error("Invalid coordinates received from API");
+      return null;
     }
 
     return coordinates;
   } catch (error) {
     console.error("Error getting coordinates:", error);
-    throw error;
+    return null;
   }
 }
 
 export async function nomainatimQuery(lat, lon) {
-  validateCoordinates(lat, lon);
+  if (!validateCoordinates(lat, lon)) return null;
 
   try {
     const endpoint = "https://nominatim.openstreetmap.org/reverse";
@@ -95,15 +89,16 @@ export async function nomainatimQuery(lat, lon) {
     return await handleFetchResponse(response, endpoint);
   } catch (error) {
     console.error("Error in nominatim query:", error);
-    throw error;
+    return null;
   }
 }
 
 export async function getNearbySettlements(lat, lon, radius) {
-  validateCoordinates(lat, lon);
+  if (!validateCoordinates(lat, lon)) return null;
 
   if (!radius || radius <= 0) {
-    throw new Error("Invalid radius provided");
+    console.error("Invalid radius provided");
+    return null;
   }
 
   try {
@@ -125,15 +120,16 @@ export async function getNearbySettlements(lat, lon, radius) {
     return await handleFetchResponse(response, endpoint);
   } catch (error) {
     console.error("Error getting nearby settlements:", error);
-    throw error;
+    return null;
   }
 }
 
 export async function getAQI(lat, lon) {
-  validateCoordinates(lat, lon);
+  if (!validateCoordinates(lat, lon)) return null;
 
   if (!process.env.NEXT_PUBLIC_AQI_KEY) {
-    throw new Error("AQI API key not configured");
+    console.error("AQI API key not configured");
+    return null;
   }
 
   try {
@@ -143,19 +139,20 @@ export async function getAQI(lat, lon) {
     );
     const data = await handleFetchResponse(response, endpoint);
 
-    if (data.status !== "ok") {
-      throw new APIError("AQI API returned error status", 400, endpoint);
+    if (data?.status !== "ok") {
+      console.error("AQI API returned error status");
+      return null;
     }
 
     return data;
   } catch (error) {
     console.error("Error getting AQI:", error);
-    throw error;
+    return null;
   }
 }
 
 export async function getWeather(lat, lon) {
-  validateCoordinates(lat, lon);
+  if (!validateCoordinates(lat, lon)) return null;
 
   try {
     const endpoint = "https://api.open-meteo.com/v1/forecast";
@@ -165,12 +162,12 @@ export async function getWeather(lat, lon) {
     return await handleFetchResponse(response, endpoint);
   } catch (error) {
     console.error("Error getting weather:", error);
-    throw error;
+    return null;
   }
 }
 
 export async function getRiverDischarge(lat, lon) {
-  validateCoordinates(lat, lon);
+  if (!validateCoordinates(lat, lon)) return null;
 
   try {
     const endpoint = "https://flood-api.open-meteo.com/v1/flood";
@@ -180,12 +177,12 @@ export async function getRiverDischarge(lat, lon) {
     return await handleFetchResponse(response, endpoint);
   } catch (error) {
     console.error("Error getting river discharge:", error);
-    throw error;
+    return null;
   }
 }
 
 export async function getEarthquake(lat, lon) {
-  validateCoordinates(lat, lon);
+  if (!validateCoordinates(lat, lon)) return null;
 
   try {
     const endpoint = "https://earthquake.usgs.gov/fdsnws/event/1/query";
@@ -195,12 +192,12 @@ export async function getEarthquake(lat, lon) {
     return await handleFetchResponse(response, endpoint);
   } catch (error) {
     console.error("Error getting earthquake data:", error);
-    throw error;
+    return null;
   }
 }
 
 export async function getHospital(lat, lon) {
-  validateCoordinates(lat, lon);
+  if (!validateCoordinates(lat, lon)) return null;
 
   try {
     const endpoint = "https://overpass-api.de/api/interpreter";
@@ -221,17 +218,19 @@ export async function getHospital(lat, lon) {
     return await handleFetchResponse(response, endpoint);
   } catch (error) {
     console.error("Error getting hospital data:", error);
-    throw error;
+    return null;
   }
 }
 
 export async function geminiSummarise(settlementData) {
   if (!process.env.NEXT_PUBLIC_GEMINI_KEY) {
-    throw new Error("Gemini API key not configured");
+    console.error("Gemini API key not configured");
+    return null;
   }
 
   if (!settlementData || typeof settlementData !== "object") {
-    throw new Error("Invalid settlement data provided");
+    console.error("Invalid settlement data provided");
+    return null;
   }
 
   try {
@@ -248,18 +247,20 @@ export async function geminiSummarise(settlementData) {
       Talk about air quality in relatable terms, mentioning any potential impact on health or lifestyle.
       Conclude with an inviting thought, encouraging readers to picture themselves in this area, mentioning any unique lifestyle benefits.
       Use a single paragraph without any blank lines
+      USE MAXIMUM 50 words
       ${JSON.stringify(settlementData)}
     `;
 
     const result = await model.generateContent(prompt);
 
     if (!result?.response?.text) {
-      throw new Error("Failed to generate summary");
+      console.error("Failed to generate summary");
+      return null;
     }
 
     return result.response.text();
   } catch (error) {
     console.error("Error generating summary:", error);
-    throw error;
+    return null;
   }
 }
