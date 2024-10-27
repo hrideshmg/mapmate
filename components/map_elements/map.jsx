@@ -113,7 +113,7 @@ export default function Map({ focusPos, setFocusPos }) {
             <div className="flex flex-col space-y-2 pb-0 -mb-1">
               <div className="flex items-center pb-2">
                 <img
-                  src={item.images.tiny}
+                  src={item.images?.tiny}
                   width={1}
                   height={1}
                   className="p-1 min-w-[8vw] h-[6vw] rounded-xl"

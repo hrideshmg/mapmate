@@ -33,7 +33,7 @@ export default function SampleResults({
             >
               <div className="max-h-[7.5vw] overflow-hidden rounded-[0.5vw]">
                 <Image
-                  src={fruit.images.small}
+                  src={fruit.images?.small}
                   width={5}
                   height={5}
                   className="h-auto min-w-[7.5vw]"
