@@ -64,14 +64,14 @@ export default function MapsTest() {
     }
   ]);
 
-    useEffect(()=>{
-      setSettlementData(JSON.parse(localStorage.getItem(ACCESS_TOKEN_NAME)))
-    },[])
+  useEffect(() => {
+    setSettlementData(JSON.parse(localStorage.getItem(ACCESS_TOKEN_NAME)))
+  }, [])
 
-    const [inter, setInter] = useState();
-    const [currBrief, setCurrBrief] = useState({});
-    const [currIndex, setCurrIndex] = useState(null);
-    const [focusPos, setFocusPos] = useState(null); 
+  const [inter, setInter] = useState();
+  const [currBrief, setCurrBrief] = useState({});
+  const [currIndex, setCurrIndex] = useState(null);
+  const [focusPos, setFocusPos] = useState(null);
 
   useEffect(() => {
     if (currIndex != null) {

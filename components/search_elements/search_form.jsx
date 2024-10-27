@@ -13,6 +13,7 @@ import {
   nomainatimQuery,
 } from "@/app/_scripts/integrations";
 import { ACCESS_TOKEN_NAME } from "@/app/_constants/constants";
+import Loader from "./loader";
 
 function haversineDistance(lat1, lon1, lat2, lon2) {
   // Used to get distance between two lat,lon pairs
@@ -66,7 +67,7 @@ export default function SearchForm() {
   };
 
   useEffect(() => {
-    if (settlementData && Object.keys(settlementData).length > 0 && isLoading==true) {
+    if (settlementData && Object.keys(settlementData).length > 0 && isLoading == true) {
       localStorage.setItem(ACCESS_TOKEN_NAME, JSON.stringify(settlementData));
       redirectToMap();
     }
@@ -90,7 +91,7 @@ export default function SearchForm() {
     const nearby_settlements = await getNearbySettlements(lat, lon, radius);
     setProgress(prevProgress => ({
       ...prevProgress,
-      target_len: nearby_settlements["elements"].length * 7 + 1
+      target_len: nearby_settlements["elements"].length * 7 + 2
     }));
 
     const settlementsData = await Promise.all(
@@ -119,13 +120,13 @@ export default function SearchForm() {
         const avg_humidity = weather.current.relative_humidity_2m;
         const avg_temperature = weather.current.temperature_2m;
 
-        const nominatim = await nomainatimQuery(s_lat, s_lon) || { display_name: '', address: {} };
+        const nominatim = (await nomainatimQuery(s_lat, s_lon)).features[0].properties || { formatted: 'API Fetch Failed' };
         setProgress(prevProgress => ({
           ...prevProgress,
           messages: [...prevProgress.messages, `Fetched Location Details For Settlement ${index}`]
         }));
 
-        const display_name = nominatim.display_name;
+        const display_name = nominatim.formatted;
         const river_discharge = (await getRiverDischarge(s_lat, s_lon) || { daily: { river_discharge: [0] } }).daily.river_discharge;
         setProgress(prevProgress => ({
           ...prevProgress,
@@ -167,11 +168,11 @@ export default function SearchForm() {
         settlement_data.index = score;
         settlement_data.address.display_name = display_name;
         settlement_data.address.city =
-          nominatim.address.city ||
-          nominatim.address.town ||
-          nominatim.address.village || 'Unknown';
-        settlement_data.address.state = nominatim.address.state || 'Unknown';
-        settlement_data.address.country = nominatim.address.country || 'Unknown';
+          nominatim.city ||
+          nominatim.town ||
+          nominatim.village || 'Unknown';
+        settlement_data.address.state = nominatim.state || 'Unknown';
+        settlement_data.address.country = nominatim.country || 'Unknown';
         settlement_data.address.location = [s_lat, s_lon];
         settlement_data.amenities.closest_hosp_name = closest_hospital_name;
         settlement_data.amenities.closest_hosp_dist = closest_hospital_dist;
@@ -199,16 +200,17 @@ export default function SearchForm() {
       messages: [...prevProgress.messages, `Data Fetching Complete!`]
     }))
     await delay(1000)
+    setProgress({messages:[], target_len:0})
     return result;
   }
 
   return (
     <>
       {(isLoading && isLoading != "not yet") ?
-        <p className="min-w-[40vw] bg-light flex justify-center items-center flex-col rounded-[2vw]">Loading....</p> :
+        <Loader /> :
         <form
           onSubmit={handleSubmit}
-          className="min-h-[80vh] min-w-[40vw] bg-light flex justify-center items-center flex-col rounded-[2vw]"
+          className="min-h-[80vh] min-w-[40vw] bg-light flex justify-center items-center flex-col rounded-[2vw] shadow-[0_10px_20px_rgba(0,0,0,_0.2)]"
         >
           <p className="text-[4.5vw] tracking-tighter w-[30vw] text-start font-semibold">
             ENTER
@@ -219,16 +221,16 @@ export default function SearchForm() {
           </p>
           <div className="flex flex-col w-[30vw]">
             <div className="flex">
-              <p className="text-[2vw] mr-[1vw]">Location:</p>
+              <p className="text-[2vw] mr-[0.1vw]">Location:</p>
               <input
                 id="location"
-                placeholder="vijay nagar"
+                placeholder="Kollam"
                 value={state.location}
                 onChange={handleChange}
                 onBlur={handleBlur}
                 required
                 type="text"
-                className="bg-transparent w-full px-[0.5vw] text-[2vw] border border-transparent focus:border-gray-300 focus:outline-none focus:border-2"
+                className="bg-transparent w-full pl-[0.2vw] pr-[0.5vw] text-[1.6vw] border border-transparent focus:border-gray-300 focus:outline-none focus:border-2"
               />
             </div>
             <div className="h-[2px] bg-black w-full mb-[0.5vw]"></div>
@@ -236,10 +238,10 @@ export default function SearchForm() {
               <p className="text-[2vw] mr-[1vw]">What are you looking for :</p>
               <textarea
                 id="desc"
-                placeholder="home"
+                placeholder="Hospitals, good AQI etc"
                 value={state.desc}
                 onChange={handleChange}
-                className="bg-transparent w-full px-[0.5vw] rounded-xl focus:border-b-0 text-[2vw] h-[15vh] word-wrap break-all max-w-[100%] border border-transparent focus:border-gray-300 focus:outline-none focus:border-2"
+                className="bg-transparent w-full px-[0.5vw] rounded-xl focus:border-b-0 text-[1.6vw] h-[15vh] word-wrap break-all max-w-[100%] border border-transparent focus:border-gray-300 focus:outline-none focus:border-2 leading-tight"
               />
             </div>
 

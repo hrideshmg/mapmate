@@ -8,13 +8,11 @@ import { useCoords } from "@/app/_context/CoordsContext";
 function SetViewOnClick({ focusPos, refreshFlag }) {
   const map = useMap();
 
-  console.log(focusPos, 'here is focuspos inside map')
   useEffect(() => {
 
     // console.log(typeof(focusPos[0]), 'here is typ')
     if (focusPos) {
       map.setView(focusPos, map.getZoom());
-      console.log(focusPos)
     }
   }, [focusPos, map, refreshFlag]);
 }
@@ -128,26 +126,26 @@ export default function Map({ focusPos, setFocusPos }) {
               <div className="flex justify-evenly">
                 <div className="flex items-center space-x-6">
                   <div className="flex items-center space-x-1 group relative">
-                    <img src={`${getLivingConditionEmoji(98)}`} className="w-6 h-6" alt="Happy image" />
-                    <div className={`text-2xl ${getLivingConditionColor(85)} text-bold`}>{`${item.index}`}</div>
+                    <img src={`${getLivingConditionEmoji(item.index)}`} className="w-6 h-6" alt="Happy image" />
+                    <div className={`text-2xl ${getLivingConditionColor(item.index)} text-bold`}>{item.index}</div>
                     <div className="absolute top-full right-0 transform translate-x-64 -translate-y-24 mt-2 bg-white w-80 border border-gray-200 text-black text-sm px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">
-                      Happyness rate is determined by getting something from some other thing (Hopefully)
+                      The suitability index is calculated by combining various parameters and user preferences
                     </div>
                   </div>
 
-                  <div className="flex items-center space-x-1 group relative">
+                  <div className="flex items-center space-x-1 group relative pl-2">
                     <img src="/leaf.png" className="w-6 h-6" alt="Gun image" />
                     <div className={`text-2xl ${getAqiColor(item.calamity.aqi)} text-bold`}>{item.calamity.aqi}</div>
                     <div className="absolute top-full right-0 transform translate-x-44 -translate-y-24 mt-2 bg-white w-80 border border-gray-200 text-black text-sm px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">
-                      Safety score is determined by getting something from some other thing (Hopefully)
+                      Air quality index is a measure of how breathable the air is
                     </div>
                   </div>
 
                   <div className="flex items-center space-x-1 group relative">
                     <img src={`${getWeatherIcon(item.weather.code)}`} className="w-9 h-9" alt="Rainy image" />
-                    <div className="text-lg ">{`${getWeatherDesciption(item.weather.code)}`}</div>
+                    <div className="text-base pl-3 text-lg">{`${getWeatherDesciption(item.weather.code)}`}</div>
                     <div className="absolute top-full right-0 transform translate-x-16 -translate-y-24 mt-2 bg-white w-80 border border-gray-200 text-black text-sm px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">
-                      Rain probability is determined by getting something from some other thing (Hopefully)
+                      Current weather is indicative of the changing seasons
                     </div>
                   </div>
                 </div>
@@ -174,3 +172,5 @@ export default function Map({ focusPos, setFocusPos }) {
     </MapContainer>
   );
 }
+
+
