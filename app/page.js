@@ -5,12 +5,13 @@ import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility
 import "leaflet-defaulticon-compatibility";
 import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
 import SearchForm from "@/components/search_elements/search_form";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useCoords } from "./_context/CoordsContext";
 
 export default function Home() {
   const position = [51.23, -0.09];
   const { coords, settlementData, progress } = useCoords();
+  const [isLoading, setIsLoading] = useState(false);
 
   return (
     <div className="relative bg-transparent text-black">
@@ -36,7 +37,7 @@ export default function Home() {
         <div className="absolute inset-0 z-[500] flex justify-center items-center pointer-events-none">
           <div className="flex-1 flex flex-col justify-center items-center">
             <div className="flex flex-col justify-center items-start">
-              <p className="text-[4.5vw]">Urbanalyze</p>
+              <p className="text-[4.5vw]">{isLoading?<>Urbanalyzing...</>:<>Urbanalyze</>}</p>
               <p className="text-start px-[0.5vw] text-[1.5vw] bg-black text-white  shadow-[0_2px_20px_rgba(0,_0,_0,_0.3)]">
                 Find your dream location
               </p>
@@ -45,7 +46,7 @@ export default function Home() {
           <div className="flex-1 flex">
             {/* Enable pointer events on interactive elements */}
             <div className="pointer-events-auto p-2 rounded-3xl">
-              <SearchForm />
+              <SearchForm isLoading={isLoading} setIsLoading={setIsLoading}/>
             </div>
           </div>
         </div>

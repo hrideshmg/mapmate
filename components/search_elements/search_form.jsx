@@ -35,7 +35,7 @@ function delay(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-export default function SearchForm() {
+export default function SearchForm({isLoading, setIsLoading}) {
   const router = useRouter();
   const { setCoords, settlementData, setSettlementData, setProgress, weights } =
     useCoords();
@@ -44,8 +44,6 @@ export default function SearchForm() {
     location: "",
     desc: "",
   });
-
-  const [isLoading, setIsLoading] = useState(false);
 
   const handleBlur = async (e) => {
     const coords = await getCoordinates(e.target.value);
