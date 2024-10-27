@@ -66,7 +66,7 @@ export default function SearchForm() {
   };
 
   useEffect(() => {
-    if (settlementData && Object.keys(settlementData).length > 0) {
+    if (settlementData && Object.keys(settlementData).length > 0 && isLoading==true) {
       localStorage.setItem(ACCESS_TOKEN_NAME, JSON.stringify(settlementData));
       redirectToMap();
     }
