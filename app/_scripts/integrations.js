@@ -87,6 +87,36 @@ export async function nomainatimQuery(lat, lon) {
     return null;
   }
 }
+export async function getPexelsImage(query) {
+  const apiKey = process.env.NEXT_PUBLIC_PEXELS_KEY; // Your Pexels API key
+  const endpoint = `https://api.pexels.com/v1/search?query=${encodeURIComponent(query)}&per_page=1`;
+
+  try {
+    const response = await fetch(endpoint, {
+      method: "GET",
+      headers: {
+        Authorization: apiKey,
+      },
+    });
+
+    if (!response.ok) {
+      console.error("Error fetching image from Pexels:", response.statusText);
+      return null;
+    }
+
+    const data = await response.json();
+    console.log(data);
+    if (data.photos && data.photos.length > 0) {
+      return data; // Get a medium-sized image
+    } else {
+      console.error("No images found for the query:", query);
+      return null;
+    }
+  } catch (error) {
+    console.error("Error fetching image from Pexels:", error);
+    return null;
+  }
+}
 
 export async function getNearbySettlements(lat, lon, radius) {
   if (!validateCoordinates(lat, lon)) return null;
@@ -233,8 +263,8 @@ export async function geminiSummarise(settlementData) {
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
     const prompt = `
-      Use the following data to create a descriptive summary about what it's like to live in this area. 
-      Describe the climate, healthcare access, environmental factors, and air quality in a informative tone using the given data. 
+      Use the following data to create a descriptive summary about what it's like to live in this area.
+      Describe the climate, healthcare access, environmental factors, and air quality in a informative tone using the given data.
       Avoid using bullet points, instead crafting a smooth narrative that flows naturally from one topic to the next.
       Guidelines for Summary:
       Describe healthcare accessibility

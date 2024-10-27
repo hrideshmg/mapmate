@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useCoords } from "@/app/_context/CoordsContext";
 import { getCoordinates } from "@/app/_scripts/integrations";
+import { getPexelsImage } from "@/app/_scripts/integrations";
 import {
   geminiSummarise,
   getAQI,
@@ -23,34 +24,35 @@ function haversineDistance(lat1, lon1, lat2, lon2) {
   const a =
     Math.sin(dLat / 2) * Math.sin(dLat / 2) +
     Math.cos(lat1 * (Math.PI / 180)) *
-    Math.cos(lat2 * (Math.PI / 180)) *
-    Math.sin(dLon / 2) *
-    Math.sin(dLon / 2);
+      Math.cos(lat2 * (Math.PI / 180)) *
+      Math.sin(dLon / 2) *
+      Math.sin(dLon / 2);
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   return R * c;
 }
 
 function delay(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 export default function SearchForm() {
   const router = useRouter();
-  const { setCoords, settlementData, setSettlementData, setProgress, weights } = useCoords();
+  const { setCoords, settlementData, setSettlementData, setProgress, weights } =
+    useCoords();
 
   const [state, setState] = useState({
-    location: '',
-    desc: ''
+    location: "",
+    desc: "",
   });
 
   const [isLoading, setIsLoading] = useState(false);
 
   const handleBlur = async (e) => {
-    const coords = await getCoordinates(e.target.value)
+    const coords = await getCoordinates(e.target.value);
     setCoords(coords);
-    let result = await triggerGeoFusion(coords, 10000);
+    let result = await triggerGeoFusion(coords, 1000);
     setSettlementData(result);
-  }
+  };
 
   const handleChange = (e) => {
     const { id, value } = e.target;
@@ -67,7 +69,11 @@ export default function SearchForm() {
   };
 
   useEffect(() => {
-    if (settlementData && Object.keys(settlementData).length > 0 && isLoading == true) {
+    if (
+      settlementData &&
+      Object.keys(settlementData).length > 0 &&
+      isLoading == true
+    ) {
       localStorage.setItem(ACCESS_TOKEN_NAME, JSON.stringify(settlementData));
       redirectToMap();
     }
@@ -83,15 +89,15 @@ export default function SearchForm() {
     const { h_w, t_w, r_w, e_w, aqi_w, ho_w } = weights;
 
     // Update progress for fetching nearby settlements
-    setProgress(prevProgress => ({
+    setProgress((prevProgress) => ({
       ...prevProgress,
-      messages: [...prevProgress.messages, "Fetching Nearby Settlements"]
+      messages: [...prevProgress.messages, "Fetching Nearby Settlements"],
     }));
 
     const nearby_settlements = await getNearbySettlements(lat, lon, radius);
-    setProgress(prevProgress => ({
+    setProgress((prevProgress) => ({
       ...prevProgress,
-      target_len: nearby_settlements["elements"].length * 7 + 2
+      target_len: nearby_settlements["elements"].length * 7 + 2,
     }));
 
     const settlementsData = await Promise.all(
@@ -103,48 +109,81 @@ export default function SearchForm() {
           amenities: {},
           weather: {},
           calamity: {},
+          images: {},
         };
 
         const aqi = (await getAQI(s_lat, s_lon)).data.aqi || 100;
-        setProgress(prevProgress => ({
+        setProgress((prevProgress) => ({
           ...prevProgress,
-          messages: [...prevProgress.messages, `Fetched Air Quality Index For Settlement ${index}`]
+          messages: [
+            ...prevProgress.messages,
+            `Fetched Air Quality Index For Settlement ${index}`,
+          ],
         }));
 
-        const weather = await getWeather(s_lat, s_lon) || { current: { temperature_2m: 0, relative_humidity_2m: 0 } };
-        setProgress(prevProgress => ({
+        const weather = (await getWeather(s_lat, s_lon)) || {
+          current: { temperature_2m: 0, relative_humidity_2m: 0 },
+        };
+        setProgress((prevProgress) => ({
           ...prevProgress,
-          messages: [...prevProgress.messages, `Fetched Weather For Settlement ${index}`]
+          messages: [
+            ...prevProgress.messages,
+            `Fetched Weather For Settlement ${index}`,
+          ],
         }));
 
         const avg_humidity = weather.current.relative_humidity_2m;
         const avg_temperature = weather.current.temperature_2m;
 
-        const nominatim = (await nomainatimQuery(s_lat, s_lon)).features[0].properties || { formatted: 'API Fetch Failed' };
-        setProgress(prevProgress => ({
+        const nominatim = (await nomainatimQuery(s_lat, s_lon)).features[0]
+          .properties || { formatted: "API Fetch Failed" };
+        setProgress((prevProgress) => ({
           ...prevProgress,
-          messages: [...prevProgress.messages, `Fetched Location Details For Settlement ${index}`]
+          messages: [
+            ...prevProgress.messages,
+            `Fetched Location Details For Settlement ${index}`,
+          ],
         }));
 
         const display_name = nominatim.formatted;
-        const river_discharge = (await getRiverDischarge(s_lat, s_lon) || { daily: { river_discharge: [0] } }).daily.river_discharge;
-        setProgress(prevProgress => ({
+        const river_discharge = (
+          (await getRiverDischarge(s_lat, s_lon)) || {
+            daily: { river_discharge: [0] },
+          }
+        ).daily.river_discharge;
+        setProgress((prevProgress) => ({
           ...prevProgress,
-          messages: [...prevProgress.messages, `Fetched River Discharge For Settlement ${index}`]
+          messages: [
+            ...prevProgress.messages,
+            `Fetched River Discharge For Settlement ${index}`,
+          ],
         }));
 
-        const river_discharge_avg = river_discharge.reduce((a, b) => a + b, 0) / (river_discharge.length || 1);
+        const river_discharge_avg =
+          river_discharge.reduce((a, b) => a + b, 0) /
+          (river_discharge.length || 1);
 
-        const earthquakes = (await getEarthquake(s_lat, s_lon)).features.length || 0;
-        setProgress(prevProgress => ({
+        const earthquakes =
+          (await getEarthquake(s_lat, s_lon)).features.length || 0;
+        setProgress((prevProgress) => ({
           ...prevProgress,
-          messages: [...prevProgress.messages, `Fetched Seismic Activity For Settlement ${index}`]
+          messages: [
+            ...prevProgress.messages,
+            `Fetched Seismic Activity For Settlement ${index}`,
+          ],
         }));
 
-        const closest_hospital = (await getHospital(s_lat, s_lon) || { elements: [{ lat: s_lat, lon: s_lon, tags: { name: 'Unknown' } }] }).elements[0];
-        setProgress(prevProgress => ({
+        const closest_hospital = (
+          (await getHospital(s_lat, s_lon)) || {
+            elements: [{ lat: s_lat, lon: s_lon, tags: { name: "Unknown" } }],
+          }
+        ).elements[0];
+        setProgress((prevProgress) => ({
           ...prevProgress,
-          messages: [...prevProgress.messages, `Fetched Amenities For Settlement ${index}`]
+          messages: [
+            ...prevProgress.messages,
+            `Fetched Amenities For Settlement ${index}`,
+          ],
         }));
 
         const closest_hospital_dist = haversineDistance(
@@ -153,26 +192,31 @@ export default function SearchForm() {
           closest_hospital.lat,
           closest_hospital.lon
         );
-        const closest_hospital_name = closest_hospital.tags.name || 'Unknown';
-
+        const closest_hospital_name = closest_hospital.tags.name || "Unknown";
 
         // Score calculation
         const h_n = avg_humidity / 100;
         const t_n = (avg_temperature + 30) / 80;
-        const r_n = 1 - (river_discharge_avg / 50);
-        const e_n = 1 - (earthquakes / 200);
+        const r_n = 1 - river_discharge_avg / 50;
+        const e_n = 1 - earthquakes / 200;
         const ho_n = closest_hospital_dist / 10000;
-        const aqi_n = 1 - (aqi / 500)
-        const score = Math.round(((h_n * h_w) + (t_n * t_w) + (r_n * r_w) + (e_n * e_w) + (ho_n * ho_w) + (aqi_n * aqi_w)) * 100);
+        const aqi_n = 1 - aqi / 500;
+        const score = Math.round(
+          (h_n * h_w +
+            t_n * t_w +
+            r_n * r_w +
+            e_n * e_w +
+            ho_n * ho_w +
+            aqi_n * aqi_w) *
+            100
+        );
 
         settlement_data.index = score;
         settlement_data.address.display_name = display_name;
         settlement_data.address.city =
-          nominatim.city ||
-          nominatim.town ||
-          nominatim.village || 'Unknown';
-        settlement_data.address.state = nominatim.state || 'Unknown';
-        settlement_data.address.country = nominatim.country || 'Unknown';
+          nominatim.city || nominatim.town || nominatim.village || "Unknown";
+        settlement_data.address.state = nominatim.state || "Unknown";
+        settlement_data.address.country = nominatim.country || "Unknown";
         settlement_data.address.location = [s_lat, s_lon];
         settlement_data.amenities.closest_hosp_name = closest_hospital_name;
         settlement_data.amenities.closest_hosp_dist = closest_hospital_dist;
@@ -182,11 +226,30 @@ export default function SearchForm() {
         settlement_data.calamity.earthquakes = earthquakes;
         settlement_data.calamity.aqi = aqi;
 
-        settlement_data.gemini_summary = (await geminiSummarise(settlement_data)) || "Placeholder Summary";
-        // Update progress for generating summary
-        setProgress(prevProgress => ({
+        const imageQuery = settlement_data.address.city;
+        const settlement_img = await getPexelsImage(imageQuery);
+
+        settlement_data.images.landscape =
+          settlement_img.photos[0].src.landscape;
+        settlement_data.images.small = settlement_img.photos[0].src.small;
+        settlement_data.images.tiny = settlement_img.photos[0].src.tiny;
+        setProgress((prevProgress) => ({
           ...prevProgress,
-          messages: [...prevProgress.messages, `Generated Summary For Settlement ${index}`]
+          messages: [
+            ...prevProgress.messages,
+            `Fetched Images For Settlement ${index}`,
+          ],
+        }));
+
+        settlement_data.gemini_summary =
+          (await geminiSummarise(settlement_data)) || "Placeholder Summary";
+        // Update progress for generating summary
+        setProgress((prevProgress) => ({
+          ...prevProgress,
+          messages: [
+            ...prevProgress.messages,
+            `Generated Summary For Settlement ${index}`,
+          ],
         }));
 
         return settlement_data;
@@ -194,20 +257,23 @@ export default function SearchForm() {
     );
 
     result.push(...settlementsData);
-    result = result.sort((a, b) => { return b.index - a.index })
-    setProgress(prevProgress => ({
+    result = result.sort((a, b) => {
+      return b.index - a.index;
+    });
+    setProgress((prevProgress) => ({
       ...prevProgress,
-      messages: [...prevProgress.messages, `Data Fetching Complete!`]
-    }))
-    await delay(1000)
-    setProgress({messages:[], target_len:0})
+      messages: [...prevProgress.messages, `Data Fetching Complete!`],
+    }));
+    await delay(1000);
+    setProgress({ messages: [], target_len: 0 });
     return result;
   }
 
   return (
     <>
-      {(isLoading && isLoading != "not yet") ?
-        <Loader /> :
+      {isLoading && isLoading != "not yet" ? (
+        <Loader />
+      ) : (
         <form
           onSubmit={handleSubmit}
           className="min-h-[80vh] min-w-[40vw] bg-light flex justify-center items-center flex-col rounded-[2vw] shadow-[0_10px_20px_rgba(0,0,0,_0.2)]"
@@ -260,8 +326,7 @@ export default function SearchForm() {
             </div>
           </div>
         </form>
-      }
+      )}
     </>
   );
 }
-
