@@ -65,9 +65,9 @@ export default function MapsTest(){
     ]);
 
     useEffect(()=>{
-      console.log(settlementData)
-        setData(settlementData);
+      setSettlementData(JSON.parse(localStorage.getItem(ACCESS_TOKEN_NAME)))
     },[])
+
     const [inter, setInter] = useState();
     const [currBrief, setCurrBrief] = useState({});
     const [currIndex, setCurrIndex] = useState(null);

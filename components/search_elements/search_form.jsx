@@ -12,6 +12,7 @@ import {
   getWeather,
   nomainatimQuery,
 } from "@/app/_scripts/integrations";
+import { ACCESS_TOKEN_NAME } from "@/app/_constants/constants";
 
 function haversineDistance(lat1, lon1, lat2, lon2) {
   // Used to get distance between two lat,lon pairs
@@ -67,7 +68,8 @@ export default function SearchForm() {
 
   useEffect(() => {
     if (settlementData && Object.keys(settlementData).length > 0) {
-      router.push('/map');
+      localStorage.setItem(ACCESS_TOKEN_NAME, JSON.stringify(settlementData));
+      redirectToMap();
     }
   }, [settlementData, router]);
   
