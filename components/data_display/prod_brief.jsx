@@ -20,14 +20,13 @@ export default function ProductBrief({ open, setOpen, currBrief }) {
       h: prev.h === "min-h-[20vw]" ? "min-h-[98vh]" : "min-h-[20vw]",
       w: prev.h === "min-h-[20vw]" ? "min-w-[30vw]" : "min-w-[25vw]",
     }));
-    console.log("hello", expand);
   };
   const handleClose = () => {
     setOpen(false);
   };
 
   useEffect(() => {
-    console.log(currBrief.address?.display_name, "here is currbrief");
+    // console.log(currBrief.address?.display_name, "here is currbrief");
   }, [currBrief]);
 
   useEffect(() => {
@@ -38,15 +37,13 @@ export default function ProductBrief({ open, setOpen, currBrief }) {
   return (
     <div className={`${open ? "" : "hidden"} absolute z-[500] flex flex-col`}>
       <div
-        className={`text-black ${expand.w} ${
-          expand.h
-        } bg-light rounded-[3vw] m-[0.5vw] flex flex-col items-center p-[1.5vw] transition-all duration-300 ease-in-out shadow-[0_0px_20px_rgba(90,_90,_90,_0.3)]`}
+        className={`text-black ${expand.w} ${expand.h
+          } bg-light rounded-[3vw] m-[0.5vw] flex flex-col items-center p-[1.5vw] transition-all duration-300 ease-in-out shadow-[0_0px_20px_rgba(90,_90,_90,_0.3)]`}
       >
         <div className="flex items-center justify-between w-full">
           <button
-            className={`p-2 rounded-full hover:bg-white transition duration-200 ${
-              expand.h === "min-h-[20vw]" ? "hidden" : ""
-            }`}
+            className={`p-2 rounded-full hover:bg-white transition duration-200 ${expand.h === "min-h-[20vw]" ? "hidden" : ""
+              }`}
             onClick={handleClick}
           >
             <ChevronDefaultLeft />

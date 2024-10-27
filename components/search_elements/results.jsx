@@ -17,7 +17,6 @@ export default function SampleResults({
       setCurrIndex(index);
       setFocusPos(fruit.address.location);
     }
-    console.log("clicked brief open", open, index, fruit);
   };
 
   return (

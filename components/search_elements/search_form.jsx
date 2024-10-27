@@ -24,9 +24,9 @@ function haversineDistance(lat1, lon1, lat2, lon2) {
   const a =
     Math.sin(dLat / 2) * Math.sin(dLat / 2) +
     Math.cos(lat1 * (Math.PI / 180)) *
-      Math.cos(lat2 * (Math.PI / 180)) *
-      Math.sin(dLon / 2) *
-      Math.sin(dLon / 2);
+    Math.cos(lat2 * (Math.PI / 180)) *
+    Math.sin(dLon / 2) *
+    Math.sin(dLon / 2);
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   return R * c;
 }
@@ -50,7 +50,7 @@ export default function SearchForm() {
   const handleBlur = async (e) => {
     const coords = await getCoordinates(e.target.value);
     setCoords(coords);
-    let result = await triggerGeoFusion(coords, 1000);
+    let result = await triggerGeoFusion(coords, 5000);
     setSettlementData(result);
   };
 
@@ -97,7 +97,7 @@ export default function SearchForm() {
     const nearby_settlements = await getNearbySettlements(lat, lon, radius);
     setProgress((prevProgress) => ({
       ...prevProgress,
-      target_len: nearby_settlements["elements"].length * 7 + 2,
+      target_len: nearby_settlements["elements"].length * 8 + 2,
     }));
 
     const settlementsData = await Promise.all(
@@ -208,7 +208,7 @@ export default function SearchForm() {
             e_n * e_w +
             ho_n * ho_w +
             aqi_n * aqi_w) *
-            100
+          100
         );
 
         settlement_data.index = score;
@@ -230,9 +230,9 @@ export default function SearchForm() {
         const settlement_img = await getPexelsImage(imageQuery);
 
         settlement_data.images.landscape =
-          settlement_img.photos[0].src.landscape;
-        settlement_data.images.small = settlement_img.photos[0].src.small;
-        settlement_data.images.tiny = settlement_img.photos[0].src.tiny;
+          settlement_img?.photos[0].src.landscape || "/placeholder.jpg";
+        settlement_data.images.small = settlement_img?.photos[0].src.small || "/placeholder.jpg";
+        settlement_data.images.tiny = settlement_img?.photos[0].src.tiny || "/placeholder.jpg";
         setProgress((prevProgress) => ({
           ...prevProgress,
           messages: [

@@ -54,7 +54,6 @@ export async function getCoordinates(location_string) {
       console.error("Location not found");
       return null;
     }
-    console.log(jsonData);
     const lat = jsonData.features[0].properties.lat;
     const lon = jsonData.features[0].properties.lon;
     const coordinates = [parseFloat(lat), parseFloat(lon)];
@@ -105,7 +104,6 @@ export async function getPexelsImage(query) {
     }
 
     const data = await response.json();
-    console.log(data);
     if (data.photos && data.photos.length > 0) {
       return data; // Get a medium-sized image
     } else {
