@@ -27,6 +27,7 @@ export default function SampleResults({
 
     return (
         <div>
+            <FilterTags/>
             <ul className="text-black mt-[2vw]">
                 {settlementData.map((fruit, index) => (
                     <li>
