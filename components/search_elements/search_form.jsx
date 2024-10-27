@@ -200,6 +200,7 @@ export default function SearchForm() {
       messages: [...prevProgress.messages, `Data Fetching Complete!`]
     }))
     await delay(1000)
+    setProgress({messages:[], target_len:0})
     return result;
   }
 

@@ -2,9 +2,13 @@ import { useCoords } from "@/app/_context/CoordsContext"
 
 export default function Loader(){
     const {progress}=useCoords();
-    const progress_len = progress.messages && progress.target_len > 0 
+    var progress_len = progress.messages && progress.target_len > 0 
         ?  (1-((progress.target_len - progress.messages.length)) / progress.target_len) * 100 
         : 0;
+    // if (progress_len>100) {
+    //     var value=progress_len/100;
+    //     progress_len=progress_len-100*value;
+    // }
     // console.log("Progress bar length : ",progress_len);
     const formattedProgressBar=progress_len.toFixed(2);
     return (
