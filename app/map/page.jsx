@@ -10,6 +10,7 @@ import axios from "axios";
 import { ACCESS_FILTER, ACCESS_TOKEN_NAME } from "../_constants/constants";
 import { useCoords } from "../_context/CoordsContext";
 import Link from "next/link";
+import FilterTags from "@/components/search_elements/filter_tags";
 
 
 export default function MapsTest() {
@@ -87,9 +88,10 @@ export default function MapsTest() {
 
   return (
     <div className="flex-1 flex">
-      <div className="bg-light flex-1 h-screen flex flex-col p-[1vw]">
-        <div className="text-black text-[3vw] tracking-tighter font-semibold">
-          <Link href="/">URBANALYZE</Link>
+      <div className="bg-light flex-1 h-screen flex flex-col px-[1vw] max-h-screen overflow-y-scroll">
+        <div className="text-black bg-light text-[3vw] py-[1vw] font-semibold sticky top-0">
+          <Link className="tracking-tighter" href="/">URBANALYZE</Link>
+          <FilterTags/>
         </div>
         {/* <div className="w-full">
           <SearchBar />
