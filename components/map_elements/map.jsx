@@ -8,11 +8,13 @@ import { useCoords } from "@/app/_context/CoordsContext";
 function SetViewOnClick({ focusPos, refreshFlag }) {
   const map = useMap();
 
+  console.log(focusPos, 'here is focuspos inside map')
   useEffect(() => {
 
     // console.log(typeof(focusPos[0]), 'here is typ')
     if (focusPos) {
       map.setView(focusPos, map.getZoom());
+      console.log(focusPos)
     }
   }, [focusPos, map, refreshFlag]);
 }
@@ -123,12 +125,12 @@ export default function Map({ focusPos, setFocusPos }) {
                   {`${item.address.display_name}`}
                 </p>
               </div>
-              <div className="flex justify-between">
-                <div className="flex justify-between items-center space-x-6">
+              <div className="flex justify-evenly">
+                <div className="flex items-center space-x-6">
                   <div className="flex items-center space-x-1 group relative">
                     <img src={`${getLivingConditionEmoji(98)}`} className="w-6 h-6" alt="Happy image" />
-                    <div className={`text-2xl ${getLivingConditionColor(85)} text-bold`}>85</div>
-                    <div className="absolute top-full right-0 transform translate-x-52 translate-y-12 mt-2 bg-white w-80 border border-gray-200 text-black text-sm px-2 py-1 rounded opacity-0 group-hover:opacity-85 transition-opacity">
+                    <div className={`text-2xl ${getLivingConditionColor(85)} text-bold`}>{`${item.index}`}</div>
+                    <div className="absolute top-full right-0 transform translate-x-64 -translate-y-24 mt-2 bg-white w-80 border border-gray-200 text-black text-sm px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">
                       Happyness rate is determined by getting something from some other thing (Hopefully)
                     </div>
                   </div>
@@ -136,15 +138,15 @@ export default function Map({ focusPos, setFocusPos }) {
                   <div className="flex items-center space-x-1 group relative">
                     <img src="/leaf.png" className="w-6 h-6" alt="Gun image" />
                     <div className={`text-2xl ${getAqiColor(item.calamity.aqi)} text-bold`}>{item.calamity.aqi}</div>
-                    <div className="absolute top-full right-0 transform translate-x-32 translate-y-12 mt-2 bg-white w-80 border border-gray-200 text-black text-sm px-2 py-1 rounded opacity-0 group-hover:opacity-85 transition-opacity">
+                    <div className="absolute top-full right-0 transform translate-x-44 -translate-y-24 mt-2 bg-white w-80 border border-gray-200 text-black text-sm px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">
                       Safety score is determined by getting something from some other thing (Hopefully)
                     </div>
                   </div>
 
                   <div className="flex items-center space-x-1 group relative">
                     <img src={`${getWeatherIcon(item.weather.code)}`} className="w-9 h-9" alt="Rainy image" />
-                    <div className="text-base pl-4">{`${getWeatherDesciption(item.weather.code)}`}</div>
-                    <div className="absolute top-full right-0 transform translate-x-6 translate-y-12 mt-2 bg-white w-80 border border-gray-200 text-black text-sm px-2 py-1 rounded opacity-0 group-hover:opacity-85 transition-opacity">
+                    <div className="text-lg ">{`${getWeatherDesciption(item.weather.code)}`}</div>
+                    <div className="absolute top-full right-0 transform translate-x-16 -translate-y-24 mt-2 bg-white w-80 border border-gray-200 text-black text-sm px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">
                       Rain probability is determined by getting something from some other thing (Hopefully)
                     </div>
                   </div>
