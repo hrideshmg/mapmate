@@ -13,6 +13,7 @@ import {
   nomainatimQuery,
 } from "@/app/_scripts/integrations";
 import { ACCESS_TOKEN_NAME } from "@/app/_constants/constants";
+import Loader from "./loader";
 
 function haversineDistance(lat1, lon1, lat2, lon2) {
   // Used to get distance between two lat,lon pairs
@@ -90,7 +91,7 @@ export default function SearchForm() {
     const nearby_settlements = await getNearbySettlements(lat, lon, radius);
     setProgress(prevProgress => ({
       ...prevProgress,
-      target_len: nearby_settlements["elements"].length * 7 + 1
+      target_len: nearby_settlements["elements"].length * 7 + 2
     }));
 
     const settlementsData = await Promise.all(
@@ -205,7 +206,7 @@ export default function SearchForm() {
   return (
     <>
       {(isLoading && isLoading != "not yet") ?
-        <p className="min-w-[40vw] bg-light flex justify-center items-center flex-col rounded-[2vw]">Loading....</p> :
+        <Loader/>:
         <form
           onSubmit={handleSubmit}
           className="min-h-[80vh] min-w-[40vw] bg-light flex justify-center items-center flex-col rounded-[2vw]"

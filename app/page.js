@@ -58,7 +58,7 @@ export default function Home() {
 }
 function Tester({ progress }) {
   useEffect(() => {
-    // console.log(progress);
+    console.log(progress);
   }, [progress]);
 }
 
