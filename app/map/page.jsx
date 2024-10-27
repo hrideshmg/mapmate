@@ -12,57 +12,57 @@ import { useCoords } from "../_context/CoordsContext";
 import Link from "next/link";
 
 
-export default function MapsTest(){
-    const {settlementData, setSettlementData} = useCoords();
-    const [open, setOpen] = useState(false);
-    const [data, setData] = useState([
-      {
-        address: {
-          display_name: "Abad Pepper Route, KB Jacob Road, Fort Nagar, Fort Kochi, Kochi, Ernakulam, Kerala, 682001, India",
-          city: "Kochi",
-          state: "Kerala",
-          country: "India",
-          location: [51,-0.09]
-        },
-        amenities: {
-          closest_hosp_name: "Nair's Hospital , Kochi",
-          closest_hosp_dist: 8.17306791852232
-        },
-        weather: {
-          temperature: 90,
-          humidity: 26
-        },
-        calamity: {
-          river_discharge: 14.374865900383185,
-          earthquakes: 0,
-          aqi: 51
-        },
-        index: 75
+export default function MapsTest() {
+  const { settlementData, setSettlementData } = useCoords();
+  const [open, setOpen] = useState(false);
+  const [data, setData] = useState([
+    {
+      address: {
+        display_name: "Abad Pepper Route, KB Jacob Road, Fort Nagar, Fort Kochi, Kochi, Ernakulam, Kerala, 682001, India",
+        city: "Kochi",
+        state: "Kerala",
+        country: "India",
+        location: [51, -0.09]
       },
-      {
-        address: {
-          display_name: "Abad Pepper Route, KB Jacob Road, Fort Nagar, Fort Kochi, Kochi, Ernakulam, Kerala, 682001, India",
-          city: "Kochi",
-          state: "Kerala",
-          country: "India",
-          location: [51,0.09]
-        },
-        amenities: {
-          closest_hosp_name: "Nair's Hospital , Kochi",
-          closest_hosp_dist: 8.17306791852232
-        },
-        weather: {
-          temperature: 90,
-          humidity: 26
-        },
-        calamity: {
-          river_discharge: 14.374865900383185,
-          earthquakes: 0,
-          aqi: 51
-        },
-        index: 75
-      }
-    ]);
+      amenities: {
+        closest_hosp_name: "Nair's Hospital , Kochi",
+        closest_hosp_dist: 8.17306791852232
+      },
+      weather: {
+        temperature: 90,
+        humidity: 26
+      },
+      calamity: {
+        river_discharge: 14.374865900383185,
+        earthquakes: 0,
+        aqi: 51
+      },
+      index: 75
+    },
+    {
+      address: {
+        display_name: "Abad Pepper Route, KB Jacob Road, Fort Nagar, Fort Kochi, Kochi, Ernakulam, Kerala, 682001, India",
+        city: "Kochi",
+        state: "Kerala",
+        country: "India",
+        location: [51, 0.09]
+      },
+      amenities: {
+        closest_hosp_name: "Nair's Hospital , Kochi",
+        closest_hosp_dist: 8.17306791852232
+      },
+      weather: {
+        temperature: 90,
+        humidity: 26
+      },
+      calamity: {
+        river_discharge: 14.374865900383185,
+        earthquakes: 0,
+        aqi: 51
+      },
+      index: 75
+    }
+  ]);
 
     useEffect(()=>{
       setSettlementData(JSON.parse(localStorage.getItem(ACCESS_TOKEN_NAME)))
@@ -79,11 +79,11 @@ export default function MapsTest(){
     }
   }, [currIndex]);
 
-    useEffect(()=>{
-        if (settlementData.length > 0) {
-            setFocusPos(settlementData[0].address.location);
-        }
-    }, [settlementData]);
+  useEffect(() => {
+    if (settlementData.length > 0) {
+      setFocusPos(settlementData[0].address.location);
+    }
+  }, [settlementData]);
 
   return (
     <div className="flex-1 flex">
