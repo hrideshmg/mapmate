@@ -15,7 +15,6 @@ export default function ProductBrief({ open, setOpen, currBrief }) {
             ...prev,
             h: prev.h === "min-h-[20vw]" ? "min-h-[98vh]" : "min-h-[20vw]"
         }));
-        console.log("hello", expand);
     };
     const handleClose = () => {
         setOpen(false)
