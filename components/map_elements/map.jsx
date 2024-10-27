@@ -126,8 +126,8 @@ export default function Map({ focusPos, setFocusPos }) {
               <div className="flex justify-evenly">
                 <div className="flex items-center space-x-6">
                   <div className="flex items-center space-x-1 group relative">
-                    <img src={`${getLivingConditionEmoji(98)}`} className="w-6 h-6" alt="Happy image" />
-                    <div className={`text-2xl ${getLivingConditionColor(85)} text-bold`}>{item.index}</div>
+                    <img src={`${getLivingConditionEmoji(item.index)}`} className="w-6 h-6" alt="Happy image" />
+                    <div className={`text-2xl ${getLivingConditionColor(item.index)} text-bold`}>{item.index}</div>
                     <div className="absolute top-full right-0 transform translate-x-64 -translate-y-24 mt-2 bg-white w-80 border border-gray-200 text-black text-sm px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">
                       The suitability index is calculated by combining various parameters and user preferences
                     </div>
