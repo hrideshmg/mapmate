@@ -82,19 +82,17 @@ export default function ProductBrief({ open, setOpen, currBrief }) {
       <div className={`${expand.h=="min-h-[20vw]"?"hidden":""} w-full flex`}>
         <Stats currBrief={currBrief}/>
       </div>
-      <div className="flex w-full">
+      <div className={`flex w-full ${expand.h === "min-h-[98vh]" ? "hidden" : ""}`}>
         <button
-          className={`p-2 rounded-full hover:bg-white transition duration-200 ${
-            expand.h === "min-h-[98vh]" ? "hidden" : ""
-          }`}
+          className="p-2 rounded-full hover:bg-white transition duration-200"
           onClick={handleClick}
         >
           <ArrowDownLeft />
         </button>
-        <div className="flex-1"></div>
+        <div className="flex-1 text-[2vw] font-semibold text-end"><span className="text-[1vw]">INDEX: </span>{currBrief.index}</div>
       </div>
     </div>
-    <div className={`bg-light text-black max-h-[40vh] overflow-y-auto min-w-[28vw] text-wrap max-w-[25vw] m-[0.5vw] p-[1.5vw] rounded-[3vw] text-[1vw] 
+    <div className={`bg-[#5B3A29] text-white max-h-[40vh] overflow-y-auto min-w-[28vw] text-wrap max-w-[25vw] m-[0.5vw] p-[1.5vw] rounded-[3vw] text-[1vw] 
                     ${expand.h=="min-h-[98vh]"?"hidden":""} shadow-[0_0px_20px_rgba(90,_90,_90,_0.3)]`}>
       {currBrief.gemini_summary}
     </div>

@@ -7,9 +7,9 @@ export default function Stats({currBrief}){
             <div className="mt-[0.5vw]">
                 <p className="text-[1.2vw] font-semibold">Amenities</p>
                 <div>
-                    <p>Hospitals</p>
+                    <p className="text-[1vw]">Hospitals</p>
                     <div className="flex text-[1vw] mx-[1vw]">
-                        <p className="font-semibold">{currBrief.amenities?.closest_hosp_name}</p>
+                        1. <p className="font-semibold">{currBrief.amenities?.closest_hosp_name}</p>
                         <p>&nbsp;about <strong>{currBrief.amenities?.closest_hosp_dist}km</strong> away</p>
                     </div>
                 </div>
@@ -19,27 +19,27 @@ export default function Stats({currBrief}){
                 <div className="flex text-[1vw]">
                     <div className="flex flex-1 items-end mx-[1vw]">
                         <p className="mb-[0.2vw]">Temperature &nbsp;</p>
-                        <p className="text-[1.5vw]">{currBrief.weather?.temperature}°C</p>
+                        <p className="text-[1.5vw]">{currBrief.weather?.temperature}<span className="font-extralight text-[1vw]">°C</span></p>
                     </div>
                     <div className="flex flex-1 items-end mx-[1vw]">
                         <p className="mb-[0.2vw]">Humidity &nbsp;</p>
-                        <p className="text-[1.5vw]">{currBrief.weather?.humidity}</p>
+                        <p className="text-[1.5vw]">{currBrief.weather?.humidity}<span className="text-[1vw] font-extralight">%</span></p>
                     </div>
                 </div>
             </div>
             <div className="mt-[1vw]">
-                <p className="text-[1.2vw] font-semibold">Past Calamities<span className="font-extralight text-[1vw]"> (past 20yrs)</span></p>
+                <p className="text-[1.2vw] font-semibold">Risk Profile<span className="font-extralight text-[1vw]"> (past 20yrs)</span></p>
                 <div className="flex flex-wrap text-[1vw]">
-                    <div className="flex-1 mx-[1vw]">
+                    <div className="flex-[3] mx-[1vw]">
                         <p>River Discharge</p>
-                        <p className="text-[1.5vw]">{currBrief.calamity?.river_discharge}</p>
+                        <p className="text-[1.5vw]">{(currBrief.calamity?.river_discharge)?.toFixed(7)}<span className="text-[1vw] font-extralight">m3/s</span></p>
                     </div>
-                    <div className="flex-1 mx-[1vw]">
+                    <div className="flex-[2] mx-[1vw]">
                         <p>Earthquakes</p>
                         <p className="text-[1.5vw]">{currBrief.calamity?.earthquakes}</p>
                     </div>
-                    <div className="flex-1 mx-[1vw]">
-                        <p>Aqi</p>
+                    <div className="flex-[2] mx-[1vw]">
+                        <p>AQI</p>
                         <p className="text-[1.5vw]">{currBrief.calamity?.aqi}</p>
                     </div>
                 </div>

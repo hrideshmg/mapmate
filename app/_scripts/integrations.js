@@ -244,7 +244,7 @@ export async function geminiSummarise(settlementData) {
       Avoid using bullet points, instead crafting a smooth narrative that flows naturally from one topic to the next.
       Guidelines for Summary:
       Describe healthcare accessibility
-      Discuss environmental factors like the low earthquake risk and the risk of flood based on river discharge
+      Discuss environmental factors like the earthquake risk and the risk of flood based on river discharge
       Talk about air quality in relatable terms, mentioning any potential impact on health or lifestyle.
       Conclude with an inviting thought, encouraging readers to picture themselves in this area, mentioning any unique lifestyle benefits.
       Use a single paragraph without any blank lines
