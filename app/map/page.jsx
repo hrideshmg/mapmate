@@ -22,9 +22,15 @@ export default function MapsTest() {
   }, [])
 
   const [inter, setInter] = useState();
+  const [currBrief, setCurrBrief] = useState({});
   const [currIndex, setCurrIndex] = useState(null);
   const [focusPos, setFocusPos] = useState(null);
 
+  useEffect(() => {
+    if (currIndex != null) {
+      setCurrBrief(settlementData[currIndex]);
+    }
+  }, [currIndex]);
 
   useEffect(() => {
     if (settlementData.length > 0) {
@@ -61,7 +67,7 @@ export default function MapsTest() {
             />
           )}
         </div>
-        <ProductBrief open={open} setOpen={setOpen} currBrief={settlementData} />
+        <ProductBrief open={open} setOpen={setOpen} currBrief={currBrief} />
       </div>
     </div>
   );

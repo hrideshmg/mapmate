@@ -64,6 +64,7 @@ export default function SearchForm({ isLoading, setIsLoading }) {
     e.preventDefault();
     setIsLoading(true);
     let result = await triggerGeoFusion(coords, 5000);
+    // console.log(result);
     setSettlementData(result);
   };
 
@@ -74,7 +75,7 @@ export default function SearchForm({ isLoading, setIsLoading }) {
       isLoading == true
     ) {
       localStorage.setItem(ACCESS_TOKEN_NAME, JSON.stringify(settlementData));
-      console.log(settlementData)
+      // console.log(settlementData)
       redirectToMap();
     }
   }, [settlementData, router]);

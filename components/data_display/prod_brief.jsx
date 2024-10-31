@@ -20,6 +20,7 @@ export default function ProductBrief({ open, setOpen, currBrief }) {
       h: prev.h === "min-h-[20vw]" ? "min-h-[98vh]" : "min-h-[20vw]",
       w: prev.h === "min-h-[20vw]" ? "min-w-[30vw]" : "min-w-[25vw]",
     }));
+    // console.log("hello", expand);
   };
   const handleClose = () => {
     setOpen(false);
