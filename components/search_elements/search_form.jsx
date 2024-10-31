@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useCoords } from "@/app/_context/CoordsContext";
-import { getCoordinates } from "@/app/_scripts/integrations";
+import { geminiGenerateWeights, getCoordinates } from "@/app/_scripts/integrations";
 import { getPexelsImage } from "@/app/_scripts/integrations";
 import {
   geminiSummarise,
@@ -37,13 +37,22 @@ function delay(ms) {
 
 export default function SearchForm({ isLoading, setIsLoading }) {
   const router = useRouter();
-  const { setCoords, settlementData, setSettlementData, setProgress, weights, coords } =
+  const { setCoords, settlementData, setSettlementData, setProgress, weights, setWeights, coords } =
     useCoords();
 
   const [state, setState] = useState({
     location: "",
     desc: "",
   });
+
+
+  useEffect(() => {
+    async function fetchResult() {
+      let result = await triggerGeoFusion(coords, 5000);
+      setSettlementData(result);
+    }
+    if (weights) fetchResult()
+  }, [weights])
 
   const handleBlur = async (e) => {
     if (e.target.value) {
@@ -63,9 +72,10 @@ export default function SearchForm({ isLoading, setIsLoading }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-    let result = await triggerGeoFusion(coords, 5000);
-    // console.log(result);
-    setSettlementData(result);
+
+    const form_data = new FormData(e.target);
+    const weights = await geminiGenerateWeights(form_data.get("prompt"));
+    setWeights(weights);
   };
 
   useEffect(() => {
@@ -88,6 +98,7 @@ export default function SearchForm({ isLoading, setIsLoading }) {
     const [lat, lon] = coords;
     let result = [];
     const { h_w, t_w, r_w, e_w, aqi_w, ho_w } = weights;
+    console.log(weights)
 
     // Update progress for fetching nearby settlements
     setProgress((prevProgress) => ({
@@ -305,6 +316,7 @@ export default function SearchForm({ isLoading, setIsLoading }) {
               <p className="text-[2vw] mr-[1vw]">What are you looking for :</p>
               <textarea
                 id="desc"
+                name="prompt"
                 placeholder="Hospitals, good AQI etc"
                 value={state.desc}
                 onChange={handleChange}

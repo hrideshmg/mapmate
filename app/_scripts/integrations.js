@@ -287,3 +287,35 @@ export async function geminiSummarise(settlementData) {
     return null;
   }
 }
+
+export async function geminiGenerateWeights(user_input) {
+  if (!process.env.NEXT_PUBLIC_GEMINI_KEY) {
+    console.error("Gemini API key not configured");
+    return null;
+  }
+
+  try {
+    const genAI = new GoogleGenerativeAI(process.env.NEXT_PUBLIC_GEMINI_KEY);
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+
+    const prompt = `
+    Given below is a set of weights which correspond as follows: h_w = humidity, t_w=temperature, r_w=river discharge, e_w=earthquakes, aqi_w=air quality index, ho_w= hospital. 
+       {"h_w": 0.05,"t_w": 0.05,"r_w": 0.2,"e_w": 0.2,"aqi_w": 0.3,"ho_w": 0.2}
+    Use the below prompt to generate a json document in the same format as above but adjust the weights according to the users requirements, make sure to only output the json format strictly following the above one and don't output anything else. You're free to adjust the weights as you please in accordance with the below given input but make sure that all of them add up to 1
+
+    User Input:
+    ${JSON.stringify(user_input)}
+    `;
+
+    const result = await model.generateContent(prompt);
+
+    if (!result?.response?.text) {
+      console.error("Failed to generate weights");
+      return null;
+    }
+    return JSON.parse(result.response.text());
+  } catch (error) {
+    console.error("Error generating summary:", error);
+    return null;
+  }
+}
