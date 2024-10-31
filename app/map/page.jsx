@@ -1,7 +1,5 @@
 "use client";
-
 import ProductBrief from "@/components/data_display/prod_brief";
-import Map from "@/components/map_elements/map";
 import SampleResults from "@/components/search_elements/results";
 import SearchBar from "@/components/search_elements/search_bar";
 import { useEffect, useState } from "react";
@@ -11,17 +9,27 @@ import { ACCESS_FILTER, ACCESS_TOKEN_NAME } from "../_constants/constants";
 import { useCoords } from "../_context/CoordsContext";
 import Link from "next/link";
 import FilterTags from "@/components/search_elements/filter_tags";
+import dynamic from 'next/dynamic';
 
+// Dynamically import the Map component with ssr disabled
+const Map = dynamic(
+  () => import("@/components/map_elements/map"),
+  { ssr: false } // This ensures the component only loads on the client side
+);
 
 export default function MapsTest() {
   const { settlementData, setSettlementData } = useCoords();
   const [open, setOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setSettlementData(JSON.parse(localStorage.getItem(ACCESS_TOKEN_NAME)))
-  }, [])
+    setMounted(true);
+    const storedData = localStorage.getItem(ACCESS_TOKEN_NAME);
+    if (storedData) {
+      setSettlementData(JSON.parse(storedData));
+    }
+  }, []);
 
-  const [inter, setInter] = useState();
   const [currBrief, setCurrBrief] = useState({});
   const [currIndex, setCurrIndex] = useState(null);
   const [focusPos, setFocusPos] = useState(null);
@@ -30,7 +38,7 @@ export default function MapsTest() {
     if (currIndex != null) {
       setCurrBrief(settlementData[currIndex]);
     }
-  }, [currIndex]);
+  }, [currIndex, settlementData]);
 
   useEffect(() => {
     if (settlementData.length > 0) {
@@ -45,9 +53,6 @@ export default function MapsTest() {
           <Link className="tracking-tighter" href="/">URBANALYZE</Link>
           <FilterTags />
         </div>
-        {/* <div className="w-full">
-          <SearchBar />
-        </div> */}
         <div className="flex-1">
           <SampleResults
             open={open}
@@ -60,7 +65,7 @@ export default function MapsTest() {
       </div>
       <div className="bg-light flex-[3] flex justify-end">
         <div className="rounded-[3vw] bg-red-300 flex-1 overflow-hidden">
-          {focusPos && ( // Ensure focusPos is available before rendering the map
+          {mounted && focusPos && (
             <Map
               focusPos={focusPos}
               setFocusPos={setFocusPos}
