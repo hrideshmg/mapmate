@@ -48,7 +48,7 @@ export default function SearchForm({ isLoading, setIsLoading }) {
 
   useEffect(() => {
     async function fetchResult() {
-      let result = await triggerGeoFusion(coords, 5000);
+      let result = await triggerGeoFusion(coords, 10000);
       setSettlementData(result);
     }
     if (weights) fetchResult()
