@@ -1,8 +1,11 @@
+Winning project for the SDG Track at the evoLUMIN national level hackathon. It was made by me, [@amansxcalibur](https://github.com/amansxcalibur), [@itsabhinavm](https://github.com/ItsAbhinavM) and [@angrezichatterbox](https://github.com/angrezichatterbox) under our team name - Sadya Scripters.
+
+Devfolio Link: [Urbanalyze](https://devfolio.co/projects/ecoaware-d0cd)
+
+---
 # URBANALYZE
 
 **URBANALYZE** is a web application designed to help users determine the suitability of specific areas for housing by analyzing various critical factors, including weather, earthquake activity, air quality index, crime index, and more. With a calculated suitability score based on real-time data and AI analysis, URBANALYZE enables users to make informed decisions about potential housing areas.
-
----
 
 ## Features
 
@@ -14,16 +17,12 @@
 - **AI-Powered Scoring**: Generate a suitability score using AI to calculate a comprehensive assessment for each area within a defined range.
 - **User-Friendly Map Interface**: Easily input a location and view the analysis results through a visual, map-based interface.
 
----
-
 ## Tech Stack
 
 - **Next.js**: Enables server-side rendering and efficient routing for a fast, responsive user experience.
 - **Tailwind CSS**: Provides a responsive and modern design with custom styling options.
 - **OpenStreetMap API**: Supplies map data to visualize the location and display analytical data overlays.
 - **Gemini**: Integrates data management and enables scalable analytics, empowering the AI model for score calculation.
-
----
 
 ## Getting Started
 
@@ -68,8 +67,6 @@ Follow these steps to set up URBANALYZE on your local machine:
 
    The app will be available at `http://localhost:3000`.
 
----
-
 ## Usage
 
 1. **Enter a Location**: Search or select a location on the map.
@@ -77,14 +74,6 @@ Follow these steps to set up URBANALYZE on your local machine:
 3. **View Data Analysis**: The app gathers weather, earthquake, and crime data relevant to the chosen area.
 4. **Receive Suitability Score**: An AI-powered score provides a summary of the area’s suitability for housing.
 5. **Compare Areas**: Adjust the search radius to compare nearby locations and evaluate different housing options.
-
----
-
-## Contributing
-
-Contributions are welcome! Please submit a pull request or open an issue to suggest improvements.
-
----
 
 ## License
 
