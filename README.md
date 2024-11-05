@@ -5,16 +5,17 @@ Devfolio Link: [Urbanalyze](https://devfolio.co/projects/ecoaware-d0cd)
 ---
 # URBANALYZE
 
-**URBANALYZE** is a web application designed to help users determine the suitability of specific areas for housing by analyzing various critical factors, including weather, earthquake activity, air quality index, crime index, and more. With a calculated suitability score based on real-time data and AI analysis, URBANALYZE enables users to make informed decisions about potential housing areas.
+**URBANALYZE** is a web application designed to help users determine the suitability of specific areas for housing or development by analyzing various critical factors, including weather, earthquake activity, air quality index, proximity to amenities etc.
 
 ## Features
 
-- **Location Suitability Analysis**: Evaluate whether a specific area is suitable for housing based on multiple data points.
+- **Location Suitability Analysis**: Evaluate whether a specific area is suitable for housing/development based on multiple data points.
+- **Dynamic Weights**: Type out your preferences in plaintext and we will compare different locations based on your input.
 - **Data Insights**: Collect and analyze key data points, including:
   - **Weather**: Current and historical weather patterns and predictions.
   - **Seismic Activity**: Records of earthquakes in the area.
-  - **Crime Index**: Analysis of crime rates and types of crimes within the area.
-- **AI-Powered Scoring**: Generate a suitability score using AI to calculate a comprehensive assessment for each area within a defined range.
+  - **Flood Risk**: Analysis of river discharge rates.
+  - **Distance to Amenities**: Names and distances to the closest hospitals, police stations etc
 - **User-Friendly Map Interface**: Easily input a location and view the analysis results through a visual, map-based interface.
 
 ## Tech Stack
@@ -22,7 +23,7 @@ Devfolio Link: [Urbanalyze](https://devfolio.co/projects/ecoaware-d0cd)
 - **Next.js**: Enables server-side rendering and efficient routing for a fast, responsive user experience.
 - **Tailwind CSS**: Provides a responsive and modern design with custom styling options.
 - **OpenStreetMap API**: Supplies map data to visualize the location and display analytical data overlays.
-- **Gemini**: Integrates data management and enables scalable analytics, empowering the AI model for score calculation.
+- **Gemini**: Used for summarising the raw data in a user friendly manner.
 
 ## Getting Started
 
@@ -70,10 +71,10 @@ Follow these steps to set up URBANALYZE on your local machine:
 ## Usage
 
 1. **Enter a Location**: Search or select a location on the map.
-2. **Enter description**: Enter a brief of your desired plot.
-3. **View Data Analysis**: The app gathers weather, earthquake, and crime data relevant to the chosen area.
-4. **Receive Suitability Score**: An AI-powered score provides a summary of the area’s suitability for housing.
-5. **Compare Areas**: Adjust the search radius to compare nearby locations and evaluate different housing options.
+2. **Enter description**: Enter a brief of your desired plot, like for eg: "Low flood risk and close proximity to hospitals"
+3. **View Data Analysis**: The app gathers weather, earthquake, and all other relevant factors.
+4. **Receive Suitability Score**: A score is generated taking into account the various factors as well the users input.
+5. **Compare Areas**: Compare nearby locations and evaluate different housing options.
 
 ## License
 
